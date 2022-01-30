@@ -1,0 +1,76 @@
+package com.hibay.goldking.base
+
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import com.hibay.goldking.common.loginOut
+import com.hibay.goldking.common.showToast
+import com.hibay.goldking.net.ApiException
+import kotlinx.coroutines.*
+import org.json.JSONException
+import retrofit2.HttpException
+import java.net.ConnectException
+import java.net.SocketTimeoutException
+import java.net.UnknownHostException
+import javax.net.ssl.SSLHandshakeException
+
+
+typealias Block<T> = suspend (CoroutineScope) -> T
+typealias Error = suspend (Exception) -> Unit
+typealias Cancel = suspend (Exception) -> Unit
+
+open class BaseViewModel : ViewModel() {
+
+    val loginStatusInvalid: MutableLiveData<Boolean> = MutableLiveData()
+    val showLoadding = MutableLiveData(false)
+    protected fun launch(
+        block: Block<Unit>,
+        error: Error? = null,
+        cancel: Cancel? = null,
+        showErrorToast: Boolean = true
+    ): Job {
+        return viewModelScope.launch {
+            try {
+                block.invoke(this)
+                showLoadding.value = false
+            } catch (e: Exception) {
+                showLoadding.value = false
+                when (e) {
+                    is CancellationException -> {
+                        cancel?.invoke(e)
+                    }
+                    else -> {
+                        onError(e, showErrorToast)
+                        error?.invoke(e)
+                    }
+                }
+            }
+        }
+    }
+
+    private fun onError(e: Exception, showErrorToast: Boolean) {
+        when (e) {
+            is ApiException -> {
+                when (e.code) {
+                    10000, 20001 -> {
+                        loginOut()
+                        loginStatusInvalid.value = true
+                    }
+                    10012 -> {
+                    }
+                    else -> if (showErrorToast) showToast(e.message)
+                }
+            }
+            is ConnectException, is SocketTimeoutException, is UnknownHostException, is HttpException, is SSLHandshakeException ->
+                if (showErrorToast) showToast("请检查网络")
+            is JSONException ->
+                if (showErrorToast) showToast("data error")
+            else ->
+                if (showErrorToast) showToast("unknown error")
+        }
+    }
+
+    protected fun <T> async(block: Block<T>): Deferred<T> {
+        return viewModelScope.async { block.invoke(this) }
+    }
+}

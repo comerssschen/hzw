@@ -1,0 +1,39 @@
+<resources>
+    <string name="app_name">杭州湾</string>
+    <string name="loan">loan</string>
+    <string name="proile">Proile</string>
+    <string name="login_title">Login / Register</string>
+    <string name="login">Login</string>
+
+    <string name="nodata">no data</string>
+    <string name="load_failed">loadfailed,please try again</string>
+    <string name="load_end">load end</string>
+    <string name="load_complete">load complete</string>
+    <string name="loading">loadding&#8230;</string>
+    <string name="network_not_available">network not available&#8230;</string>
+    <string name="press_again_to_exit">press again to exit</string>
+
+    <string name="refresh">刷新</string>
+    <string name="confirm">确定</string>
+    <string name="cancle">取消</string>
+
+    <string name="audit_succes">审核成功</string>
+    <string name="wait_perfect">待完善</string>
+    <string name="has_perfect">已完善</string>
+    <string name="mine">我的</string>
+
+    <string name="login_name">请输入手机号</string>
+    <string name="login_code">请输入密码</string>
+
+    <string name="buss_title">查看进度</string>
+    <string name="buss_money_title">申请金额(฿)</string>
+    <string name="buss_state">审核中</string>
+    <string name="buss_detail">借款明细</string>
+    <string name="buss_num">订单编号</string>
+    <string name="buss_money">申请金额</string>
+    <string name="buss_actual_money">到账金额</string>
+    <string name="buss_limit_time">借款期限</string>
+    <string name="buss_rate">手续费</string>
+    <string name="buss_day_rate">日利率</string>
+    <string name="buss_time">申请时间</string>
+</resources>

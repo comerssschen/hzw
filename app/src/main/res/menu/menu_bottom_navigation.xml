@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/loan"
+        android:icon="@drawable/main_home_normal"
+        android:title="@string/loan" />
+    <item
+        android:id="@+id/proile"
+        android:icon="@drawable/main_proile_normal"
+        android:title="@string/proile" />
+</menu>
