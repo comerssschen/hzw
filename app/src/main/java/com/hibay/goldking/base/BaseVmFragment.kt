@@ -3,6 +3,8 @@ package com.hibay.goldking.base
 import android.os.Bundle
 import android.view.View
 import androidx.lifecycle.ViewModelProvider
+import com.hibay.goldking.common.ActivityHelper
+import com.hibay.goldking.ui.act.LoginActivity
 
 
 abstract class BaseVmFragment<VM : BaseViewModel> : BaseFragment() {
@@ -32,19 +34,19 @@ abstract class BaseVmFragment<VM : BaseViewModel> : BaseFragment() {
     abstract fun viewModelClass(): Class<VM>
 
     open fun observe() {
-        mViewModel.showLoadding.observe(viewLifecycleOwner, {
+        mViewModel.showLoadding.observe(viewLifecycleOwner) {
             if (it) {
                 showProgressDialog()
             } else {
                 dismissProgressDialog()
             }
-        })
-        mViewModel.loginStatusInvalid.observe(viewLifecycleOwner, {
+        }
+        mViewModel.loginStatusInvalid.observe(viewLifecycleOwner) {
             if (it) {
-//                ActivityHelper.startActivity(LoginActivity::class.java)
-//                ActivityHelper.finish(MainActivity::class.java)
+                ActivityHelper.startActivity(LoginActivity::class.java)
+                ActivityHelper.finishAll(LoginActivity::class.java)
             }
-        })
+        }
     }
 
     open fun initData() {}

@@ -1,11 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
-        android:id="@+id/loan"
-        android:icon="@drawable/main_home_normal"
-        android:title="@string/loan" />
+        android:id="@+id/home"
+        android:icon="@drawable/tab_home_selector"
+        android:title="首页" />
     <item
-        android:id="@+id/proile"
-        android:icon="@drawable/main_proile_normal"
-        android:title="@string/proile" />
+        android:id="@+id/orders"
+        android:icon="@drawable/tab_orders_selector"
+        android:title="工单" />
+    <item
+        android:id="@+id/devices"
+        android:icon="@drawable/tab_devices_selector"
+        android:title="设备" />
+    <item
+        android:id="@+id/inspection"
+        android:icon="@drawable/tab_inspection_selector"
+        android:title="巡检" />
+    <item
+        android:id="@+id/mine"
+        android:icon="@drawable/tab_mine_selector"
+        android:title="我的" />
 </menu>

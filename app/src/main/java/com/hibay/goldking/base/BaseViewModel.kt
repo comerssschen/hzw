@@ -3,7 +3,7 @@ package com.hibay.goldking.base
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.hibay.goldking.common.loginOut
+import com.blankj.utilcode.util.SPUtils
 import com.hibay.goldking.common.showToast
 import com.hibay.goldking.net.ApiException
 import kotlinx.coroutines.*
@@ -52,11 +52,10 @@ open class BaseViewModel : ViewModel() {
         when (e) {
             is ApiException -> {
                 when (e.code) {
-                    10000, 20001 -> {
-                        loginOut()
+                    50000 -> {
+                        SPUtils.getInstance().remove("token")
+                        showToast("登录失效，请重新登录")
                         loginStatusInvalid.value = true
-                    }
-                    10012 -> {
                     }
                     else -> if (showErrorToast) showToast(e.message)
                 }

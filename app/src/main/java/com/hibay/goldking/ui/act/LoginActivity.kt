@@ -2,11 +2,11 @@ package com.hibay.goldking.ui.act
 
 import android.os.Bundle
 import android.view.inputmethod.EditorInfo
+import androidx.core.widget.addTextChangedListener
 import com.blankj.utilcode.util.BarUtils
 import com.hibay.goldking.R
 import com.hibay.goldking.base.BaseVmActivity
-import com.hibay.goldking.common.ActivityHelper
-import com.hibay.goldking.common.showToast
+import com.hibay.goldking.common.*
 import com.hibay.goldking.ui.viewmodel.LoginViewModel
 import kotlinx.android.synthetic.main.activity_login.*
 
@@ -21,30 +21,47 @@ class LoginActivity : BaseVmActivity<LoginViewModel>(R.layout.activity_login) {
     override fun viewModelClass() = LoginViewModel::class.java
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        BarUtils.transparentStatusBar(this)
-        BarUtils.addMarginTopEqualStatusBarHeight(tv_header)
+        BarUtils.setStatusBarColor(this, resources.getColor(R.color.white))
+        etLoginName.addTextChangedListener {
+            setButtonEnable()
+        }
+        etLoginPWD.addTextChangedListener {
+            setButtonEnable()
+        }
 
-        et_logincode.setOnEditorActionListener { v, actionId, event ->
+        etLoginPWD.setOnEditorActionListener { v, actionId, event ->
             if (actionId == EditorInfo.IME_ACTION_GO) {
-                bt_login.performClick()
+                btLogin.performClick()
                 true
             } else {
                 false
             }
         }
-        bt_login.setOnClickListener {
-            val phoneNum = et_loginname.text.toString().trim()
-            val pwd = et_logincode.text.toString().trim()
+        btLogin.setOnClickListener {
+            val phoneNum = etLoginName.text.toString().trim()
+            val pwd = etLoginPWD.text.toString().trim()
             when {
                 phoneNum.isEmpty() -> showToast(getString(R.string.login_name))
-                pwd.isEmpty() -> showToast(getString(R.string.login_code))
+                pwd.isEmpty() -> showToast(getString(R.string.login_pwd))
                 else -> {
                     mViewModel.login(phoneNum, pwd)
                 }
-
             }
-
         }
+
+        tvPrivacy.setOnClickListener {
+            showToast("杭州湾运维协议")
+        }
+        tvForgetPWD.setOnClickListener {
+            showToast("忘记密码")
+        }
+//        etLoginName.setText(accountName)
+//        etLoginPWD.setText(accountPWD)
+        setButtonEnable()
+    }
+
+    private fun setButtonEnable() {
+        btLogin.isEnabled = etLoginName.toStr().isNotEmpty() && etLoginPWD.toStr().isNotEmpty()
     }
 
     override fun observe() {

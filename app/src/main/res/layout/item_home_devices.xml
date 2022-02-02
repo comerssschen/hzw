@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/itemGroup"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal">
+
+    <TextView
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:paddingVertical="9dp"
+        android:text="情报板"
+        android:textColor="@color/color_99"
+        android:textSize="12sp" />
+
+    <TextView
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:paddingVertical="9dp"
+        android:text="CM2837"
+        android:textColor="@color/color_99"
+        android:textSize="12sp" />
+
+    <TextView
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:paddingVertical="9dp"
+        android:text="故障"
+        android:textColor="@color/color_99"
+        android:textSize="12sp" />
+
+    <TextView
+        android:id="@+id/tvDeviceStatus"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:paddingVertical="9dp"
+        android:text="维修进度"
+        android:textColor="@color/color_4692FF"
+        android:textSize="12sp" />
+
+    <TextView
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1.5"
+        android:gravity="center"
+        android:paddingVertical="9dp"
+        android:text="2021-05-10 11:15"
+        android:textColor="@color/color_99"
+        android:textSize="12sp" />
+
+</LinearLayout>

@@ -1,0 +1,261 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/color_f5">
+
+    <ImageView
+        android:id="@+id/ivTopBg"
+        android:layout_width="match_parent"
+        android:layout_height="190dp"
+        android:scaleType="fitXY"
+        android:src="@drawable/home_top_bg"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/tvHeader"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:text="首页"
+        android:textColor="@color/white"
+        android:textSize="20sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingHorizontal="14dp"
+        android:src="@drawable/home_notice"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/tvHeader" />
+
+    <TextView
+        android:id="@+id/tvScan"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
+        android:drawableTop="@drawable/home_scan"
+        android:drawablePadding="10dp"
+        android:text="扫码巡检"
+        android:textColor="@color/white"
+        android:textSize="15sp"
+        app:layout_constraintEnd_toStartOf="@+id/tvReport"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvHeader" />
+
+    <TextView
+        android:id="@+id/tvReport"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
+        android:drawableTop="@drawable/home_report"
+        android:drawablePadding="10dp"
+        android:text="故障上报"
+        android:textColor="@color/white"
+        android:textSize="15sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/tvScan"
+        app:layout_constraintTop_toBottomOf="@+id/tvHeader" />
+
+    <LinearLayout
+        android:id="@+id/llGroup"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginVertical="10dp"
+        android:orientation="horizontal"
+        app:layout_constraintTop_toBottomOf="@+id/ivTopBg">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@drawable/home_white_2dp_shape"
+            android:paddingTop="10dp"
+            android:paddingBottom="23dp">
+
+            <TextView
+                android:id="@+id/tvLukuang"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:drawableStart="@drawable/home_lukuang_icon"
+                android:drawablePadding="5dp"
+                android:text="综合路况"
+                android:textColor="@color/color_33"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <ImageView
+                android:id="@+id/ivLukuang"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="17dp"
+                android:src="@drawable/home_lukuang_image"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tvLukuang" />
+
+            <TextView
+                android:id="@+id/tvWind"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="17dp"
+                android:drawableStart="@drawable/home_wind_icon"
+                android:drawablePadding="4dp"
+                android:text="风力5级"
+                android:textColor="@color/color_33"
+                android:textSize="12sp"
+                app:layout_constraintEnd_toStartOf="@+id/tvTemp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/ivLukuang" />
+
+            <TextView
+                android:id="@+id/tvTemp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:drawableStart="@drawable/home_temp_icon"
+                android:drawablePadding="4dp"
+                android:text="10-9oC"
+                android:textColor="@color/color_33"
+                android:textSize="12sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/tvWind"
+                app:layout_constraintTop_toTopOf="@+id/tvWind" />
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_weight="1"
+            android:background="@drawable/home_white_2dp_shape"
+            android:paddingTop="10dp"
+            android:paddingBottom="23dp">
+
+            <TextView
+                android:id="@+id/tvCheLiu"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:drawableStart="@drawable/home_cheliu_icon"
+                android:drawablePadding="5dp"
+                android:text="当前车流"
+                android:textColor="@color/color_33"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <ImageView
+                android:id="@+id/ivCheLiu"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="6.5dp"
+                android:src="@drawable/home_cheliu_image"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tvCheLiu" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="15dp"
+                android:layout_marginTop="11.5dp"
+                android:drawableStart="@drawable/home_cheliu_tips"
+                android:drawablePadding="4dp"
+                android:text="双向流量：2973辆/每小时"
+                android:textColor="@color/color_33"
+                android:textSize="12sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/ivCheLiu" />
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/tvDeviceTitle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:background="@color/white"
+        android:drawableStart="@drawable/home_device_icon"
+        android:drawablePadding="5.5dp"
+        android:paddingVertical="12dp"
+        android:paddingStart="8dp"
+        android:text="故障设备"
+        android:textColor="@color/color_33"
+        app:layout_constraintTop_toBottomOf="@+id/llGroup" />
+
+    <LinearLayout
+        android:id="@+id/llDevice"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@+id/tvDeviceTitle">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:paddingVertical="9dp"
+            android:text="设备类型"
+            android:textColor="@color/color_66"
+            android:textSize="12sp" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:paddingVertical="9dp"
+            android:text="设备编号"
+            android:textColor="@color/color_66"
+            android:textSize="12sp" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:paddingVertical="9dp"
+            android:text="设备状态"
+            android:textColor="@color/color_66"
+            android:textSize="12sp" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:paddingVertical="9dp"
+            android:text="维修进度"
+            android:textColor="@color/color_66"
+            android:textSize="12sp" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1.5"
+            android:gravity="center"
+            android:paddingVertical="9dp"
+            android:text="报修时间"
+            android:textColor="@color/color_66"
+            android:textSize="12sp" />
+
+    </LinearLayout>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerviewDevices"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/llDevice"
+        app:layout_constraintVertical_weight="1" />
+</androidx.constraintlayout.widget.ConstraintLayout>

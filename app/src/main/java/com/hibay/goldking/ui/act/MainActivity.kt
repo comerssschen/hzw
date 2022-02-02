@@ -1,15 +1,12 @@
 package com.hibay.goldking.ui.act
 
-import android.os.Bundle
 import androidx.fragment.app.Fragment
 import com.blankj.utilcode.util.BarUtils
 import com.hibay.goldking.R
 import com.hibay.goldking.base.BaseActivity
 import com.hibay.goldking.common.showToast
-import com.hibay.goldking.ui.fragment.HomeFragment
-import com.hibay.goldking.ui.fragment.PersonalFragment
+import com.hibay.goldking.ui.fragment.*
 import kotlinx.android.synthetic.main.activity_main.*
-
 
 /**
  *
@@ -18,50 +15,39 @@ import kotlinx.android.synthetic.main.activity_main.*
  * @date 3/1/21 11:23
  */
 class MainActivity : BaseActivity(R.layout.activity_main) {
-    private lateinit var fragments: Map<Int, Fragment>
     private var previousTimeMillis = 0L
-
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-
+    private lateinit var fragments: Map<Int, Fragment>
+    override fun initView() {
+        super.initView()
         BarUtils.transparentStatusBar(this)
         fragments = mapOf(
-            R.id.loan to createFragment(HomeFragment::class.java),
-            R.id.proile to createFragment(PersonalFragment::class.java),
+            R.id.home to HomeFragment(),
+            R.id.orders to OrdersFragment(),
+            R.id.devices to DevicesFragment(),
+            R.id.inspection to InspectionFragment(),
+            R.id.mine to MineFragment(),
         )
-
-        bottomNavigationView.setOnNavigationItemSelectedListener { menuItem ->
-            showFragment(menuItem.itemId)
+        bottomNavigationView.setOnItemSelectedListener {
+            when (it.itemId) {
+                R.id.orders, R.id.devices -> {
+                    bottomNavigationView.selectedItemId = R.id.home
+                }
+                else -> {
+                    showFragment(it.itemId)
+                }
+            }
             true
         }
-
-        if (savedInstanceState == null) {
-            bottomNavigationView.selectedItemId = R.id.loan
-        }
+        bottomNavigationView.selectedItemId = R.id.home
     }
 
-    private fun createFragment(clazz: Class<out Fragment>): Fragment {
-        var fragment = supportFragmentManager.fragments.find { it.javaClass == clazz }
-        if (fragment == null) {
-            fragment = when (clazz) {
-                HomeFragment::class.java -> HomeFragment.newInstance()
-                PersonalFragment::class.java -> PersonalFragment.newInstance()
-                else -> throw IllegalArgumentException("argument ${clazz.simpleName} is illegal")
-            }
-        }
-        return fragment
-    }
-
-    private fun showFragment(menuItemId: Int) {
-        val currentFragment = supportFragmentManager.fragments.find {
-            it.isVisible && it in fragments.values
-        }
-        val targetFragment = fragments[menuItemId]
+    private fun showFragment(itemId: Int) {
         supportFragmentManager.beginTransaction().apply {
-            currentFragment?.let { if (it.isVisible) hide(it) }
-            targetFragment?.let {
-                if (it.isAdded) show(it) else add(R.id.fl, it)
+            supportFragmentManager.fragments.forEach {
+                if (it.isVisible) hide(it)
+            }
+            fragments[itemId]?.let {
+                if (it.isAdded) show(it) else add(R.id.framelayout, it)
             }
         }.commit()
     }

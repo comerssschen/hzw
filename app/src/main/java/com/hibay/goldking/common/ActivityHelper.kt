@@ -42,4 +42,12 @@ object ActivityHelper {
             }
         }
     }
+
+    fun finishAll(vararg clazz: Class<out Activity>) {
+        activities.forEach { activiy ->
+            if (!clazz.contains(activiy::class.java)) {
+                activiy.finish()
+            }
+        }
+    }
 }

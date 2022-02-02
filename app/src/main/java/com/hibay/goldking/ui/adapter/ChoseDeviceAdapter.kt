@@ -1,0 +1,48 @@
+package com.hibay.goldking.ui.adapter
+
+import com.chad.library.adapter.base.BaseQuickAdapter
+import com.chad.library.adapter.base.viewholder.BaseViewHolder
+import com.hibay.goldking.R
+import com.hibay.goldking.bean.ReList
+
+class ChoseDeviceAdapter(
+    data: ArrayList<ReList>?,
+    layoutResId: Int = R.layout.item_chose_device
+) : BaseQuickAdapter<ReList, BaseViewHolder>(layoutResId, data) {
+    private var currentPosition: Int = 0
+    override fun convert(holder: BaseViewHolder, item: ReList) {
+        holder.setText(R.id.tvDeviceNum, getItemPosition(item).toString())
+        if (currentPosition == getItemPosition(item)) {
+            when (item.status) {
+                "正常" -> {
+                    holder.setBackgroundResource(R.id.tvDeviceNum, R.drawable.device_status_success_select)
+                }
+                "故障" -> {
+                    holder.setBackgroundResource(R.id.tvDeviceNum, R.drawable.device_status_fail_select)
+                }
+                else -> {
+                    holder.setBackgroundResource(R.id.tvDeviceNum, R.drawable.device_undeal_select)
+                }
+            }
+
+        } else {
+            when (item.status) {
+                "正常" -> {
+                    holder.setBackgroundResource(R.id.tvDeviceNum, R.drawable.device_status_success)
+                }
+                "故障" -> {
+                    holder.setBackgroundResource(R.id.tvDeviceNum, R.drawable.device_status_fail)
+                }
+                else -> {
+                    holder.setBackgroundResource(R.id.tvDeviceNum, R.drawable.device_undeal)
+                }
+            }
+        }
+    }
+
+    fun setCurrentPosition(position: Int) {
+        currentPosition = position
+        notifyDataSetChanged()
+    }
+
+}

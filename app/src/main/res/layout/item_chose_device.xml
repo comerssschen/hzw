@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TextView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/tvDeviceNum"
+    android:layout_width="39dp"
+    android:layout_height="39dp"
+    android:layout_marginStart="20dp"
+    android:layout_marginTop="20dp"
+    android:background="@drawable/device_undeal"
+    android:gravity="center"
+    android:text="2"
+    android:textColor="@color/color_99"
+    android:textSize="16sp"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toTopOf="parent" />
