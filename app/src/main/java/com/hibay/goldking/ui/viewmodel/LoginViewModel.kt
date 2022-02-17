@@ -18,6 +18,7 @@ import com.hibay.goldking.net.RetrofitClient
  */
 class LoginViewModel : BaseViewModel() {
 
+    val loginSucces = MutableLiveData<Boolean>()
     val loginResult = MutableLiveData<UserInfo>()
     fun login(name: String, pwd: String) {
         launch({
@@ -26,7 +27,10 @@ class LoginViewModel : BaseViewModel() {
                 accountPWD = pwd
                 token = it.token
                 loginResult.value = it
+                loginSucces.value = true
             }
+        }, error = {
+            loginSucces.value = false
         })
     }
 }

@@ -8,7 +8,6 @@
     android:layout_marginTop="20dp"
     android:background="@drawable/device_undeal"
     android:gravity="center"
-    android:text="2"
     android:textColor="@color/color_99"
     android:textSize="16sp"
     app:layout_constraintStart_toStartOf="parent"

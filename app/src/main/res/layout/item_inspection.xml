@@ -16,7 +16,6 @@
         android:layout_marginTop="18dp"
         android:drawableStart="@drawable/device_num"
         android:drawablePadding="7.5dp"
-        android:text="设备数：0/30"
         android:textColor="@color/color_33"
         android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
@@ -36,7 +35,6 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="14.5dp"
         android:layout_marginTop="22.5dp"
-        android:text="位 置：上行1383+400"
         android:textSize="12sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tvDeviceNum" />
@@ -47,17 +45,16 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="14.5dp"
         android:layout_marginTop="8dp"
-        android:text="上报时间：2020/11/16 12:30"
         android:textSize="12sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tvLocation" />
 
     <TextView
+        android:id="@+id/tvStatus"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:background="@drawable/inspection_finish"
         android:gravity="center"
-        android:text="未完成"
         android:textColor="@color/white"
         android:textSize="12sp"
         app:layout_constraintEnd_toEndOf="parent"

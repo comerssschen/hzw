@@ -30,13 +30,13 @@ class MainActivity : BaseActivity(R.layout.activity_main) {
         bottomNavigationView.setOnItemSelectedListener {
             when (it.itemId) {
                 R.id.orders, R.id.devices -> {
-                    bottomNavigationView.selectedItemId = R.id.home
+                    false
                 }
                 else -> {
                     showFragment(it.itemId)
+                    true
                 }
             }
-            true
         }
         bottomNavigationView.selectedItemId = R.id.home
     }

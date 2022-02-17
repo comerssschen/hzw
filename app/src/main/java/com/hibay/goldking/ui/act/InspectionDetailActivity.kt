@@ -6,6 +6,7 @@ import android.content.Intent
 import android.content.pm.ActivityInfo
 import android.util.Log
 import android.view.Gravity
+import android.view.MotionEvent
 import android.view.View
 import android.widget.ImageView
 import androidx.core.view.isVisible
@@ -35,6 +36,7 @@ import com.luck.picture.lib.config.PictureMimeType
 import kotlinx.android.synthetic.main.activity_inspection.*
 import kotlinx.android.synthetic.main.mytoolbar.*
 import java.io.File
+import kotlin.math.abs
 
 class InspectionDetailActivity : BaseVmActivity<InspectionViewMoel>(R.layout.activity_inspection) {
     override fun viewModelClass() = InspectionViewMoel::class.java
@@ -141,7 +143,6 @@ class InspectionDetailActivity : BaseVmActivity<InspectionViewMoel>(R.layout.act
                     hasNext = true
                     currentNum = index
                     currentBeam = item
-                    notifySelcet()
                     return
                 }
             }
@@ -149,6 +150,7 @@ class InspectionDetailActivity : BaseVmActivity<InspectionViewMoel>(R.layout.act
         if (!hasNext) {
             showToast("后面没有待巡检的")
         }
+        notifySelcet()
     }
 
     private fun pointLeft() {
@@ -266,4 +268,44 @@ class InspectionDetailActivity : BaseVmActivity<InspectionViewMoel>(R.layout.act
         }
     }
 
+    private var mDx = 0f
+    private var mDy = 0f
+    private var mActionEvent = 0
+    override fun onTouchEvent(event: MotionEvent): Boolean {
+        when (event.action) {
+            MotionEvent.ACTION_DOWN -> {
+                mDx = event.x
+                mDy = event.y
+                mActionEvent = 0
+                Log.i(TAG, "down=mDx=$mDx,mDy=$mDy")
+            }
+            MotionEvent.ACTION_MOVE -> {
+                val mx = event.x
+                val my = event.y
+                val disW = mx - mDx //x轴滑动距离
+                val disH: Float = my - mDy //y轴滑动距离
+                if (abs(disW) > abs(disH)) { //滑动轴判断(这个条件可根据实际需求判断)
+                    if (disW > 0) {
+                        //往左滑
+                        mActionEvent = 1
+                        Log.i(TAG, "move=往右滑=mDx=$mDx,mDy=$mDy,mx=$mx,my=$my,disW=$disW,disH=$disH")
+                    } else {
+                        mActionEvent = 2
+                        //往右滑
+                        Log.i(TAG, "move=往左滑=mDx=$mDx,mDy=$mDy,mx=$mx,my=$my,disW=$disW,disH=$disH")
+                    }
+                }
+                mDx = mx
+                mDy = my
+            }
+            MotionEvent.ACTION_UP -> {
+                if (mActionEvent == 1) {
+                    pointLeft()
+                } else if (mActionEvent == 2) {
+                    pointRight()
+                }
+            }
+        }
+        return true
+    }
 }
