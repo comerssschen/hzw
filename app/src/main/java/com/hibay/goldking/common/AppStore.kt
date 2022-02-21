@@ -21,3 +21,7 @@ var accountName: String
 var accountPWD: String
     get() = SPUtils.getInstance().getString("accountPWD")
     set(value) = SPUtils.getInstance().put("accountPWD", value)
+
+var userInfo: String
+    get() = SPUtils.getInstance().getString("userInfo")
+    set(value) = SPUtils.getInstance().put("userInfo", value)

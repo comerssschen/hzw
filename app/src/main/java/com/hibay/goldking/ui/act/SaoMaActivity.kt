@@ -33,6 +33,9 @@ class SaoMaActivity : BaseVmActivity<InspectionViewMoel>(R.layout.activity_saoma
             ActivityHelper.startActivity(InspectionDetailActivity::class.java, mapOf("facilityInfoListResult" to it))
             ActivityHelper.finish(SaoMaActivity::class.java)
         }
+        mViewModel.failResult.observe(this) {
+            zxingview.startSpot()
+        }
     }
 
     override fun onCameraAmbientBrightnessChanged(isDark: Boolean) {}

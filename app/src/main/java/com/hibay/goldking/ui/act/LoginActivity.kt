@@ -53,7 +53,7 @@ class LoginActivity : BaseVmActivity<LoginViewModel>(R.layout.activity_login) {
             showToast("杭州湾运维协议")
         }
         tvForgetPWD.setOnClickListener {
-            showToast("忘记密码")
+            ActivityHelper.startActivity(ForgetPWDActivity::class.java)
         }
 //        etLoginName.setText(accountName)
 //        etLoginPWD.setText(accountPWD)

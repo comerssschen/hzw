@@ -52,9 +52,8 @@ open class BaseViewModel : ViewModel() {
         when (e) {
             is ApiException -> {
                 when (e.code) {
-                    50000 -> {
+                    40000 -> {
                         SPUtils.getInstance().remove("token")
-                        showToast("登录失效，请重新登录")
                         loginStatusInvalid.value = true
                     }
                     else -> if (showErrorToast) showToast(e.message)

@@ -1,12 +1,143 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:background="@color/color_f3">
 
-    <Button
-        android:id="@+id/btLoginOut"
+    <ImageView
+        android:id="@+id/ivTopBg"
+        android:layout_width="match_parent"
+        android:layout_height="190dp"
+        android:scaleType="fitXY"
+        android:src="@drawable/home_top_bg"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/ivLogo"
+        android:layout_width="56dp"
+        android:layout_height="56dp"
+        android:layout_marginStart="14dp"
+        android:layout_marginTop="20dp"
+        android:scaleType="fitXY"
+        android:src="@drawable/personal_default"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/tvName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="退出登录" />
-</LinearLayout>
+        android:layout_marginStart="14dp"
+        android:textColor="@color/white"
+        android:textSize="22sp"
+        app:layout_constraintBottom_toBottomOf="@+id/ivLogo"
+        app:layout_constraintStart_toEndOf="@+id/ivLogo"
+        app:layout_constraintTop_toTopOf="@+id/ivLogo" />
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="15dp"
+        android:src="@drawable/right_arrow"
+        app:layout_constraintBottom_toBottomOf="@+id/ivLogo"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/ivLogo" />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/clOrder"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="14dp"
+        android:layout_marginTop="15dp"
+        android:background="@drawable/common_white_6dp"
+        android:paddingVertical="30dp"
+        app:layout_constraintTop_toBottomOf="@+id/ivLogo">
+
+        <TextView
+            android:id="@+id/tvAllOrder"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="55"
+            android:textColor="@color/color_33"
+            android:textSize="20sp"
+            app:layout_constraintEnd_toStartOf="@+id/tvSucces"
+            app:layout_constraintHorizontal_weight="1"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/tvSucces"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="55"
+            android:textColor="@color/color_33"
+            android:textSize="20sp"
+            app:layout_constraintEnd_toStartOf="@+id/tvWait"
+            app:layout_constraintHorizontal_weight="1"
+            app:layout_constraintStart_toEndOf="@+id/tvAllOrder"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/tvWait"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="55"
+            android:textColor="@color/color_33"
+            android:textSize="20sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_weight="1"
+            app:layout_constraintStart_toEndOf="@+id/tvSucces"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:text="全部工单"
+            android:textColor="@color/color_66"
+            android:textSize="15sp"
+            app:layout_constraintEnd_toEndOf="@+id/tvAllOrder"
+            app:layout_constraintStart_toStartOf="@+id/tvAllOrder"
+            app:layout_constraintTop_toBottomOf="@+id/tvAllOrder" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:text="已维修工单"
+            android:textColor="@color/color_66"
+            android:textSize="15sp"
+            app:layout_constraintEnd_toEndOf="@+id/tvSucces"
+            app:layout_constraintStart_toStartOf="@+id/tvSucces"
+            app:layout_constraintTop_toBottomOf="@+id/tvSucces" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:text="待维修工单"
+            android:textColor="@color/color_66"
+            android:textSize="15sp"
+            app:layout_constraintEnd_toEndOf="@+id/tvWait"
+            app:layout_constraintStart_toStartOf="@+id/tvWait"
+            app:layout_constraintTop_toBottomOf="@+id/tvWait" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <TextView
+        android:id="@+id/tvMyReport"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:background="@color/white"
+        android:drawableStart="@drawable/myreport_icon"
+        android:drawableEnd="@drawable/right_arrow"
+        android:drawablePadding="10dp"
+        android:padding="23dp"
+        android:text="我的上报"
+        android:textSize="18sp"
+        app:layout_constraintTop_toBottomOf="@+id/clOrder" />
+</androidx.constraintlayout.widget.ConstraintLayout>

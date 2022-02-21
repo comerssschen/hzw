@@ -16,7 +16,7 @@
         <ImageView
             android:id="@+id/ivDevicesLogo"
             android:layout_width="140dp"
-            android:layout_height="82.5dp"
+            android:layout_height="86dp"
             android:layout_marginStart="14dp"
             android:layout_marginTop="25dp"
             android:scaleType="fitXY"
@@ -29,7 +29,11 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="7dp"
+            android:background="@drawable/positionbg"
+            android:gravity="center_horizontal"
+            android:paddingTop="6dp"
             android:textColor="@color/white"
+            android:textSize="11sp"
             app:layout_constraintStart_toStartOf="@+id/ivDevicesLogo"
             app:layout_constraintTop_toTopOf="@+id/ivDevicesLogo" />
 
@@ -38,7 +42,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="9.5dp"
-            android:textSize="16sp"
+            android:textSize="15sp"
             android:textStyle="bold"
             app:layout_constraintStart_toEndOf="@+id/ivDevicesLogo"
             app:layout_constraintTop_toTopOf="@+id/ivDevicesLogo" />
@@ -47,8 +51,11 @@
             android:id="@+id/tvDeviceID"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="13.5dp"
+            android:layout_marginTop="8dp"
+            android:drawableStart="@drawable/id_icon"
+            android:drawablePadding="9dp"
             android:textColor="@color/color_33"
+            android:textSize="13sp"
             app:layout_constraintStart_toStartOf="@+id/tvDeviceName"
             app:layout_constraintTop_toBottomOf="@+id/tvDeviceName" />
 
@@ -56,9 +63,41 @@
             android:id="@+id/tvLocation"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:layout_marginStart="18dp"
+            android:layout_marginStart="16dp"
+            android:drawableStart="@drawable/location_icon"
+            android:drawablePadding="9dp"
+            android:textColor="@color/color_33"
+            android:textSize="14sp"
             app:layout_constraintStart_toEndOf="@+id/tvDeviceID"
             app:layout_constraintTop_toTopOf="@+id/tvDeviceID" />
+
+        <TextView
+            android:id="@+id/tvRecentMaintain"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:background="@drawable/common_99_10dp"
+            android:paddingHorizontal="11dp"
+            android:paddingVertical="4dp"
+            android:text="近期维修"
+            android:textColor="@color/color_33"
+            android:textSize="12sp"
+            app:layout_constraintStart_toStartOf="@+id/tvDeviceID"
+            app:layout_constraintTop_toBottomOf="@+id/tvDeviceID" />
+
+        <TextView
+            android:id="@+id/tvRecentInstall"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:background="@drawable/common_99_10dp"
+            android:paddingHorizontal="11dp"
+            android:paddingVertical="4dp"
+            android:text="近期维修"
+            android:textColor="@color/color_33"
+            android:textSize="12sp"
+            app:layout_constraintStart_toEndOf="@+id/tvRecentMaintain"
+            app:layout_constraintTop_toTopOf="@+id/tvRecentMaintain" />
 
         <TextView
             android:id="@+id/tvSucces"
@@ -158,6 +197,7 @@
             android:id="@+id/recyclerview"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
             android:layout_marginTop="26dp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/etFailMessage" />
@@ -224,6 +264,8 @@
             android:id="@+id/tvSuccesNum"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:drawableStart="@drawable/success"
+            android:drawablePadding="4dp"
             android:textColor="#68D279"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -234,6 +276,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="20dp"
+            android:drawableStart="@drawable/fail"
+            android:drawablePadding="4dp"
             android:textColor="#FF5F00"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toEndOf="@+id/tvSuccesNum"
@@ -243,6 +287,8 @@
             android:id="@+id/tvCurrentNum"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:drawableStart="@drawable/total"
+            android:drawablePadding="7dp"
             android:textColor="@color/color_99"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"

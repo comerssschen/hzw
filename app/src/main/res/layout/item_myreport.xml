@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginHorizontal="7.5dp"
+    android:layout_marginTop="12dp"
+    android:background="@drawable/common_white_6dp"
+    android:paddingBottom="14.5dp">
+
+    <TextView
+        android:id="@+id/tvTime"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8.5dp"
+        android:layout_marginTop="10.5dp"
+        android:drawableStart="@drawable/device_num"
+        android:drawablePadding="4.5dp"
+        android:text="65656"
+        android:textColor="@color/color_33"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginTop="12dp"
+        android:background="@color/assist_line_colo"
+        app:layout_constraintTop_toBottomOf="@+id/tvTime" />
+
+    <TextView
+        android:id="@+id/tvStatus"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/inspection_finish"
+        android:gravity="center"
+        android:textColor="@color/white"
+        android:textSize="12sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/tvLocationTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="25dp"
+        android:text="设备位置："
+        android:textColor="@color/color_33"
+        android:textSize="13sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvTime" />
+
+    <TextView
+        android:id="@+id/tvLocation"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8.5dp"
+        android:text="22"
+        android:textColor="@color/color_66"
+        android:textSize="13sp"
+        app:layout_constraintStart_toEndOf="@+id/tvLocationTitle"
+        app:layout_constraintTop_toTopOf="@+id/tvLocationTitle" />
+
+    <TextView
+        android:id="@+id/tvDesTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="14dp"
+        android:text="设备描述："
+        android:textColor="@color/color_33"
+        android:textSize="13sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvLocationTitle" />
+
+    <TextView
+        android:id="@+id/tvDes"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8.5dp"
+        android:text="22"
+        android:textColor="@color/color_66"
+        android:textSize="13sp"
+        app:layout_constraintStart_toEndOf="@+id/tvDesTitle"
+        app:layout_constraintTop_toTopOf="@+id/tvDesTitle" />
+
+    <TextView
+        android:id="@+id/tvDetailTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="14dp"
+        android:text="故障详情："
+        android:textColor="@color/color_33"
+        android:textSize="13sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvDesTitle" />
+
+    <TextView
+        android:id="@+id/tvDetail"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8.5dp"
+        android:text="22"
+        android:textColor="@color/color_66"
+        android:textSize="13sp"
+        app:layout_constraintStart_toEndOf="@+id/tvDetailTitle"
+        app:layout_constraintTop_toTopOf="@+id/tvDetailTitle" />
+</androidx.constraintlayout.widget.ConstraintLayout>

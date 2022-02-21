@@ -5,24 +5,28 @@ import kotlinx.android.parcel.Parcelize
 
 @Parcelize
 data class FacilityInfoListBean(
-    val badNum: String,
+    var qrCodeIds: String?,
+    val badNum: String?,
     val completeNum: Int,
-    val goodNum: String,
-    val reList: ArrayList<ReList>,
-    val sum: String
+    val goodNum: String?,
+    val reList: ArrayList<ReList>?,
+    val sum: String?
 ) : Parcelable
 
 @Parcelize
 data class ReList(
-    val facilityId: String,
+    val facilityId: String?,
     val faultDesc: String?,
-    val groupInspectionId: String,
-    val id: String,
+    val groupInspectionId: String?,
+    val id: String?,
     val imageAddress: String?,
-    val inspectionName: String,
-    val inspectionPerson: String,
-    val inspectionTime: String,
-    val location: String,
-    val name: String,
+    val recentInstall: String?,
+    val picture: String?,
+    val recentMaintain: String?,
+    val inspectionName: String?,
+    val inspectionPerson: String?,
+    val inspectionTime: String?,
+    val location: String?,
+    val name: String?,
     val status: String?
 ) : Parcelable

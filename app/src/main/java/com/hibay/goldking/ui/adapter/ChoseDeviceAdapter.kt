@@ -11,7 +11,7 @@ class ChoseDeviceAdapter(
 ) : BaseQuickAdapter<ReList, BaseViewHolder>(layoutResId, data) {
     private var currentPosition: Int = 0
     override fun convert(holder: BaseViewHolder, item: ReList) {
-        holder.setText(R.id.tvDeviceNum, getItemPosition(item).toString())
+        holder.setText(R.id.tvDeviceNum, (getItemPosition(item) + 1).toString())
         if (currentPosition == getItemPosition(item)) {
             when (item.status) {
                 "正常" -> {

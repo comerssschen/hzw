@@ -4,6 +4,7 @@ import android.app.Activity
 import android.content.ContentValues.TAG
 import android.content.Intent
 import android.content.pm.ActivityInfo
+import android.graphics.Color
 import android.util.Log
 import android.view.Gravity
 import android.view.MotionEvent
@@ -42,9 +43,8 @@ class InspectionDetailActivity : BaseVmActivity<InspectionViewMoel>(R.layout.act
     override fun viewModelClass() = InspectionViewMoel::class.java
     var mAdapter: BaseQuickAdapter<String, BaseViewHolder>? = null
     private val values = ArrayList<String>()
-    private var photoPath: String? = null
     private var mPosition = 0
-    val REQUESTCODE2 = 31
+    private var isAdd = true
     val REQUESTCODE1 = 30
     override fun initView() {
         super.initView()
@@ -53,6 +53,7 @@ class InspectionDetailActivity : BaseVmActivity<InspectionViewMoel>(R.layout.act
         tvTitle.text = "开始巡检"
         ivBack.setOnClickListener { ActivityHelper.finish(InspectionDetailActivity::class.java) }
         ivPhoto.setOnClickListener {
+            isAdd = true
             PictureSelector.create(this@InspectionDetailActivity)
                 .openGallery(PictureMimeType.ofImage())//相册和拍照
                 .selectionMode(PictureConfig.SINGLE)
@@ -92,7 +93,7 @@ class InspectionDetailActivity : BaseVmActivity<InspectionViewMoel>(R.layout.act
     private fun initRecycler() {
         mAdapter = object : BaseQuickAdapter<String, BaseViewHolder>(R.layout.item_photo) {
             override fun convert(holder: BaseViewHolder, item: String) {
-                Glide.with(context).load(File(item)).transform(RoundedCorners(ConvertUtils.dp2px(5f)))
+                Glide.with(context).load(item).transform(RoundedCorners(ConvertUtils.dp2px(5f)))
                     .into(holder.getView<View>(R.id.ivImage) as ImageView)
             }
         }
@@ -100,6 +101,7 @@ class InspectionDetailActivity : BaseVmActivity<InspectionViewMoel>(R.layout.act
             PermissionUtils.permissionGroup(PermissionConstants.CAMERA, PermissionConstants.STORAGE)
                 .callback(object : PermissionUtils.SimpleCallback {
                     override fun onGranted() {
+                        isAdd = false
                         mPosition = position
                         PictureSelector.create(this@InspectionDetailActivity)
                             .openGallery(PictureMimeType.ofImage())//相册和拍照
@@ -108,7 +110,7 @@ class InspectionDetailActivity : BaseVmActivity<InspectionViewMoel>(R.layout.act
                             .setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT)
                             .isCompress(true) //压缩
                             .cutOutQuality(50) //压缩后图片质量
-                            .forResult(REQUESTCODE2)
+                            .forResult(REQUESTCODE1)
                     }
 
                     override fun onDenied() {
@@ -133,33 +135,41 @@ class InspectionDetailActivity : BaseVmActivity<InspectionViewMoel>(R.layout.act
         recyclerview.adapter = mAdapter
     }
 
-
     var hasNext = false
-    private fun pointRight() {
+    private fun pointNext() {
         hasNext = false
         run {
             mList?.reList?.forEachIndexed { index, item ->
                 if (item.status.isNullOrEmpty() && index >= currentNum) {
                     hasNext = true
                     currentNum = index
-                    currentBeam = item
                     return
                 }
             }
         }
-        if (!hasNext) {
-            showToast("后面没有待巡检的")
+        if (mList!!.reList!!.size == mList!!.completeNum) {
+            showAlertDialog("已完成${(mList!!.reList!!.size)}个设备的巡检 点击确认完成任务") {
+                ActivityHelper.finish(InspectionDetailActivity::class.java)
+            }
+        } else {
+            showAlertDialog("已完成${mList!!.completeNum}个设备的巡检/n未完成${(mList!!.reList!!.size - mList!!.completeNum)}个设备的巡检/n点击确认结束巡检）") {
+                ActivityHelper.finish(InspectionDetailActivity::class.java)
+            }
         }
         notifySelcet()
+    }
+
+    private fun pointRight() {
+        if (currentNum < mList!!.reList!!.size - 1) {
+            currentNum += 1
+            notifySelcet()
+        }
     }
 
     private fun pointLeft() {
         if (currentNum > 0) {
             currentNum -= 1
-            currentBeam = mList?.reList!![currentNum]
             notifySelcet()
-        } else {
-            showToast("已经是第一个了")
         }
     }
 
@@ -167,10 +177,8 @@ class InspectionDetailActivity : BaseVmActivity<InspectionViewMoel>(R.layout.act
         group.isVisible = false
         etFailMessage.text.clear()
         values.clear()
-        mAdapter?.notifyDataSetChanged()
-
-        initeCurrentDevice(currentBeam)
-
+        mAdapter?.setList(values)
+        initeCurrentDevice(mList!!.reList!![currentNum])
         tvCurrentNum.text = "" + (currentNum + 1) + "/" + mList?.sum
         tvSuccesNum.text = mList?.goodNum
         tvFailNum.text = mList?.badNum
@@ -182,36 +190,33 @@ class InspectionDetailActivity : BaseVmActivity<InspectionViewMoel>(R.layout.act
 
     var mList: FacilityInfoListBean? = null
     var currentNum = 0
-    var currentBeam: ReList? = null
     override fun initData() {
         super.initData()
-        intent.getStringExtra("id")?.let {
-            mViewModel.getFacilityInfoById(it)
-        }
         intent.getParcelableExtra<FacilityInfoListBean>("facilityInfoListResult")?.let {
             mList = it
             clDialog.isVisible = true
             llLeft.isVisible = true
             llRight.isVisible = true
             currentNum = 0
-            pointRight()
+            notifySelcet()
+            mList?.let {
+                showBottomDialog()
+            }
         }
 
         tvCancle.setOnClickListener {
             group.isVisible = false
         }
         tvConfirm.setOnClickListener {
-            mViewModel.updateFacilityStatus(currentBeam, "2", faultDesc = etFailMessage.text.toString())
+            if (values.size > 0) {
+                mViewModel.updateFacilityStatus(mList!!.reList!![currentNum], "2", values.joinToString { i -> i }, etFailMessage.text.toString())
+            } else {
+                showToast("请上传图片")
+            }
         }
         tvSucces.setOnClickListener {
-            if (group.isVisible) {
-                showAlertDialog("确认设备正常吗？") {
-                    group.isVisible = false
-                    mViewModel.updateFacilityStatus(currentBeam, "1")
-                }
-            } else {
-                mViewModel.updateFacilityStatus(currentBeam, "1")
-            }
+            group.isVisible = false
+            mViewModel.updateFacilityStatus(mList!!.reList!![currentNum], "1")
         }
         tvFail.setOnClickListener {
             group.isVisible = true
@@ -228,43 +233,57 @@ class InspectionDetailActivity : BaseVmActivity<InspectionViewMoel>(R.layout.act
         tvDeviceName.text = currentBeam.name
         tvDeviceID.text = currentBeam.facilityId
         tvLocation.text = currentBeam.location
+
+        if (currentBeam.status == null) {
+            tvSucces.setTextColor(Color.parseColor("#68D279"))
+            tvFail.setTextColor(Color.parseColor("#FF5F00"))
+            tvSucces.setBackgroundResource(R.drawable.normal_uninspection)
+            tvFail.setBackgroundResource(R.drawable.fail_uninspection)
+        } else {
+            tvSucces.setTextColor(Color.parseColor("#ffffff"))
+            tvFail.setTextColor(Color.parseColor("#ffffff"))
+            tvSucces.setBackgroundResource(R.drawable.common_green_bg)
+            tvFail.setBackgroundResource(R.drawable.common_select_bg)
+        }
+
+//        tvRecentMaintain.isVisible = currentBeam.recentMaintain
+//        tvRecentInstall.isVisible = currentBeam.recentInstall
     }
 
     override fun observe() {
         super.observe()
-        mViewModel.facilityInfo.observe(this) {
-            currentBeam = it
-            initeCurrentDevice(it)
+        mViewModel.facilityInfoListResult.observe(this) {
+            mList = it
+            pointNext()
         }
         mViewModel.updateFacilityResult.observe(this) {
             if (it == 1) {
-                showToast("巡检成功")
-                mList?.let {
-                    pointRight()
-                }
+                mViewModel.getFacilityInfoList(mList!!.qrCodeIds)
             }
         }
-    }
-
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-        if (resultCode == Activity.RESULT_OK) {
-            val selectList = PictureSelector.obtainMultipleResult(data)
-            if (selectList.size == 0) {
-                return
-            }
-            photoPath = selectList[0].compressPath
-            if (requestCode == REQUESTCODE1) {
-                values.add(photoPath!!)
+        mViewModel.uploadImageResult.observe(this) {
+            if (isAdd) {
+                values.add(it)
                 if (values.size >= 3) {
                     ivPhoto.visibility = View.INVISIBLE
                 } else {
                     ivPhoto.visibility = View.VISIBLE
                 }
-            } else if (requestCode == REQUESTCODE2) {
-                values[mPosition] = photoPath!!
+            } else {
+                values[mPosition] = it
             }
             mAdapter?.setList(values)
+        }
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (resultCode == Activity.RESULT_OK && requestCode == REQUESTCODE1) {
+            val selectList = PictureSelector.obtainMultipleResult(data)
+            if (selectList.size == 0) {
+                return
+            }
+            mViewModel.uploadImage(File(selectList[0].compressPath))
         }
     }
 

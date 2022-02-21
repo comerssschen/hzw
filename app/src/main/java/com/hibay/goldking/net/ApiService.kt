@@ -1,6 +1,7 @@
 package com.hibay.goldking.net
 
 import com.hibay.goldking.bean.*
+import okhttp3.RequestBody
 import retrofit2.http.Body
 import retrofit2.http.GET
 import retrofit2.http.POST
@@ -18,11 +19,7 @@ interface ApiService {
 
     //扫描二维码获取所有需巡检的设备信息接口
     @GET("inspection/getFacilityInfoList")
-    suspend fun getFacilityInfoList(@Query("id") id: String): ApiResult<FacilityInfoListBean>
-
-    //根据巡检id,获取当前设备的详细信息接口
-    @GET("inspection/getFacilityInfoById")
-    suspend fun getFacilityInfoById(@Query("id") id: String): ApiResult<ReList>
+    suspend fun getFacilityInfoList(@Query("id") id: String?): ApiResult<FacilityInfoListBean>
 
     //根据巡检id修改当前设备的信息接口
     @POST("inspection/updateFacilityStatus")
@@ -32,7 +29,21 @@ interface ApiService {
     @GET("inspection/getInspectionList")
     suspend fun getInspectionList(@Query("flag") flag: Int?): ApiResult<MutableList<InspectionListBean>?>
 
-    @POST("")
-    suspend fun uploadImage()
+    //获取巡检列表接口
+    @GET("/tskWorkorderContent/getAppAllWorkOrderList")
+    suspend fun getAppAllWorkOrderList(@Query("flag") flag: Int?): ApiResult<MutableList<ReportListBean>?>
+
+    //获取我的上报列表信息
+    @GET("tskWorkorderContent/getAppReportInfo")
+    suspend fun getAppReportInfo(@Query("flag") flag: Int?): ApiResult<MutableList<ReportListBean>?>
+
+
+    //获取当前登录人的工单信息
+    @GET("tskWorkorderContent/getAppWorkOrderInfo")
+    suspend fun getAppWorkOrderInfo(): ApiResult<ReportInfoBean?>
+
+
+    @POST("tskWorkorderContent/imgUpload")
+    suspend fun uploadImage(@Body map: RequestBody): ApiResult<String>
 
 }

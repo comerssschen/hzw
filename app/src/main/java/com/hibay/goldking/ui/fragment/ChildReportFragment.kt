@@ -4,21 +4,20 @@ import android.os.Bundle
 import androidx.core.view.isVisible
 import com.hibay.goldking.R
 import com.hibay.goldking.base.BaseVmFragment
-import com.hibay.goldking.bean.DotBean
-import com.hibay.goldking.bean.InspectionListBean
-import com.hibay.goldking.common.BusHelper
-import com.hibay.goldking.ui.adapter.InspectionListAdapter
-import com.hibay.goldking.ui.viewmodel.InspectionViewMoel
+import com.hibay.goldking.bean.ReportListBean
+import com.hibay.goldking.ui.act.MyReportActivity
+import com.hibay.goldking.ui.adapter.MyReportListAdapter
+import com.hibay.goldking.ui.viewmodel.MyReportViewModel
 import kotlinx.android.synthetic.main.fragment_child_inspection.*
 
-class ChildInspectionFragment : BaseVmFragment<InspectionViewMoel>() {
-    override fun viewModelClass() = InspectionViewMoel::class.java
+class ChildReportFragment : BaseVmFragment<MyReportViewModel>() {
+    override fun viewModelClass() = MyReportViewModel::class.java
     override fun layoutRes() = R.layout.fragment_child_inspection
 
     companion object {
         const val TYPE = "type"
-        fun newInstance(type: Int): ChildInspectionFragment {
-            val fragment = ChildInspectionFragment()
+        fun newInstance(type: Int): ChildReportFragment {
+            val fragment = ChildReportFragment()
             val bundle = Bundle()
             bundle.putInt(TYPE, type)
             fragment.arguments = bundle
@@ -28,14 +27,14 @@ class ChildInspectionFragment : BaseVmFragment<InspectionViewMoel>() {
 
     override fun initData() {
         super.initData()
-        mViewModel.getInspectionList(arguments?.getInt(TYPE))
+        mViewModel.getReportList(arguments?.getInt(TYPE))
     }
 
     override fun observe() {
         super.observe()
         mViewModel.inspectionList.observe(this) {
-            arguments?.getInt(ChildReportFragment.TYPE)?.let { type ->
-                BusHelper.post("Dot", DotBean(type, it.size))
+            arguments?.getInt(TYPE).let { type ->
+                (activity as MyReportActivity).setDot(type, it.size)
             }
 
             mAAdapter.setNewInstance(it)
@@ -47,16 +46,15 @@ class ChildInspectionFragment : BaseVmFragment<InspectionViewMoel>() {
         }
     }
 
-    lateinit var mAAdapter: InspectionListAdapter
+    lateinit var mAAdapter: MyReportListAdapter
     override fun initView() {
         super.initView()
         swipeRefreshLayout.setOnRefreshListener {
-            mViewModel.getInspectionList(arguments?.getInt(TYPE))
+            mViewModel.getReportList(arguments?.getInt(TYPE))
         }
-        mAAdapter = InspectionListAdapter(null)
+        mAAdapter = MyReportListAdapter(null)
         mAAdapter.setOnItemClickListener { adapter, _, position ->
-            val bean = adapter.data[position] as InspectionListBean
-//            ActivityHelper.startActivity(InspectionDetailActivity::class.java, mapOf("id" to bean.groupInspectionId))
+            val bean = adapter.data[position] as ReportListBean
         }
         recyclerview.adapter = mAAdapter
     }
