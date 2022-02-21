@@ -5,6 +5,7 @@ import com.hibay.goldking.R
 import com.hibay.goldking.base.BaseFragment
 import com.hibay.goldking.bean.DotBean
 import com.hibay.goldking.common.BusHelper
+import com.hibay.goldking.common.SimpleFragmentPagerAdapter
 import kotlinx.android.synthetic.main.fragment_inspection.*
 import kotlinx.android.synthetic.main.mytoolbar.*
 
@@ -24,14 +25,15 @@ class InspectionFragment : BaseFragment() {
         super.initView()
         tvTitle.text = "巡检列表"
         viewpager.offscreenPageLimit = 4
-        tablayout.setViewPager(
-            viewpager, arrayOf("全部", "未巡检", "未完成", "已完成"), activity, arrayListOf(
+        viewpager.adapter = SimpleFragmentPagerAdapter(
+            childFragmentManager, listOf(
                 ChildInspectionFragment.newInstance(0),
                 ChildInspectionFragment.newInstance(1),
                 ChildInspectionFragment.newInstance(2),
                 ChildInspectionFragment.newInstance(3),
-            )
+            ), listOf("全部", "未巡检", "未完成", "已完成")
         )
+        tablayout.setViewPager(viewpager)
         BusHelper.observe<DotBean>("Dot", this) {
             setDot(it.position, it.count)
         }
