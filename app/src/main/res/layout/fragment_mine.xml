@@ -26,12 +26,16 @@
 
     <TextView
         android:id="@+id/tvName"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="14dp"
+        android:layout_marginEnd="40dp"
+        android:singleLine="true"
         android:textColor="@color/white"
         android:textSize="22sp"
         app:layout_constraintBottom_toBottomOf="@+id/ivLogo"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_weight="1"
         app:layout_constraintStart_toEndOf="@+id/ivLogo"
         app:layout_constraintTop_toTopOf="@+id/ivLogo" />
 
@@ -59,7 +63,6 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:gravity="center"
-            android:text="55"
             android:textColor="@color/color_33"
             android:textSize="20sp"
             app:layout_constraintEnd_toStartOf="@+id/tvSucces"
@@ -72,7 +75,6 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:gravity="center"
-            android:text="55"
             android:textColor="@color/color_33"
             android:textSize="20sp"
             app:layout_constraintEnd_toStartOf="@+id/tvWait"
@@ -85,7 +87,6 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:gravity="center"
-            android:text="55"
             android:textColor="@color/color_33"
             android:textSize="20sp"
             app:layout_constraintEnd_toEndOf="parent"

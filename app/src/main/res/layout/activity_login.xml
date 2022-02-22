@@ -28,7 +28,9 @@
         android:layout_marginTop="50dp"
         android:background="@null"
         android:hint="@string/login_name"
+        android:maxLength="15"
         android:paddingVertical="10dp"
+        android:singleLine="true"
         android:text="15557870253" />
 
     <View
@@ -43,7 +45,9 @@
         android:layout_marginTop="26dp"
         android:background="@null"
         android:hint="@string/login_pwd"
+        android:maxLength="15"
         android:paddingVertical="10dp"
+        android:singleLine="true"
         android:text="123456" />
 
     <View

@@ -18,6 +18,7 @@ class InspectionFragment : BaseFragment() {
 
     override fun onResume() {
         super.onResume()
+        BusHelper.post("InspectionFragmentUpdate", true)
         BarUtils.addMarginTopEqualStatusBarHeight(tvTitle)
     }
 

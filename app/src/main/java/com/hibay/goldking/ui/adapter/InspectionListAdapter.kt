@@ -15,6 +15,8 @@ class InspectionListAdapter(
         holder.setText(R.id.tvLocation, "位 置：${item.inspectionPerson}")
         holder.setText(R.id.tvTime, "上报时间：${item.inspectionTime}")
         holder.setText(R.id.tvStatus, item.status)
+        holder.setText(R.id.tvLastPerson, "最后巡检人：${item.inspectionPerson}")
+        holder.setGone(R.id.tvLastPerson, item.inspectionPerson.isNullOrEmpty())
         when (item.status) {
             "未完成" -> {
                 holder.setBackgroundResource(R.id.tvStatus, R.drawable.inspection_nofinish)

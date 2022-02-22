@@ -32,6 +32,7 @@
             android:background="@drawable/positionbg"
             android:gravity="center_horizontal"
             android:paddingTop="6dp"
+            android:singleLine="true"
             android:textColor="@color/white"
             android:textSize="11sp"
             app:layout_constraintStart_toStartOf="@+id/ivDevicesLogo"
@@ -39,11 +40,15 @@
 
         <TextView
             android:id="@+id/tvDeviceName"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="9.5dp"
+            android:layout_marginEnd="10dp"
+            android:singleLine="true"
             android:textSize="15sp"
             android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_weight="1"
             app:layout_constraintStart_toEndOf="@+id/ivDevicesLogo"
             app:layout_constraintTop_toTopOf="@+id/ivDevicesLogo" />
 
@@ -54,6 +59,8 @@
             android:layout_marginTop="8dp"
             android:drawableStart="@drawable/id_icon"
             android:drawablePadding="9dp"
+            android:maxLength="8"
+            android:singleLine="true"
             android:textColor="@color/color_33"
             android:textSize="13sp"
             app:layout_constraintStart_toStartOf="@+id/tvDeviceName"
@@ -61,13 +68,17 @@
 
         <TextView
             android:id="@+id/tvLocation"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_marginStart="16dp"
+            android:layout_marginEnd="10dp"
             android:drawableStart="@drawable/location_icon"
             android:drawablePadding="9dp"
+            android:singleLine="true"
             android:textColor="@color/color_33"
             android:textSize="14sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_weight="1"
             app:layout_constraintStart_toEndOf="@+id/tvDeviceID"
             app:layout_constraintTop_toTopOf="@+id/tvDeviceID" />
 
@@ -189,6 +200,7 @@
             android:layout_marginTop="70dp"
             android:background="@null"
             android:hint="请在这里输入你想要留言的文字内容"
+            android:maxLength="100"
             android:paddingVertical="15dp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />

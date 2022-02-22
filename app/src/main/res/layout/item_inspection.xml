@@ -35,6 +35,9 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="14.5dp"
         android:layout_marginTop="22.5dp"
+        android:drawableStart="@drawable/location_icon_gray"
+        android:drawablePadding="5dp"
+        android:singleLine="true"
         android:textSize="12sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tvDeviceNum" />
@@ -45,9 +48,26 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="14.5dp"
         android:layout_marginTop="8dp"
+        android:drawableStart="@drawable/time_icon"
+        android:drawablePadding="5dp"
+        android:singleLine="true"
         android:textSize="12sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tvLocation" />
+
+    <TextView
+        android:id="@+id/tvLastPerson"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="14.5dp"
+        android:layout_marginTop="8dp"
+        android:drawableStart="@drawable/last_person"
+        android:drawablePadding="5dp"
+        android:singleLine="true"
+        android:textSize="12sp"
+        android:visibility="gone"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvTime" />
 
     <TextView
         android:id="@+id/tvStatus"

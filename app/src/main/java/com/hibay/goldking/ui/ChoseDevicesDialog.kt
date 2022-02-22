@@ -28,7 +28,6 @@ class ChoseDevicesDialog(mContext: Context, bean: FacilityInfoListBean, currentN
         mCurrentNum = currentNum
         mAdapter?.setCurrentPosition(currentNum)
         mAdapter?.setOnItemClickListener { _, _, position ->
-            if (position == mCurrentNum) return@setOnItemClickListener
             mCurrentNum = currentNum
             mAdapter?.setCurrentPosition(position)
             choseItem.invoke(position)

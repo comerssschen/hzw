@@ -143,20 +143,22 @@ class InspectionDetailActivity : BaseVmActivity<InspectionViewMoel>(R.layout.act
                 if (item.status.isNullOrEmpty() && index >= currentNum) {
                     hasNext = true
                     currentNum = index
-                    return
+                    return@run
                 }
             }
         }
-        if (mList!!.reList!!.size == mList!!.completeNum) {
-            showAlertDialog("已完成${(mList!!.reList!!.size)}个设备的巡检 点击确认完成任务") {
-                ActivityHelper.finish(InspectionDetailActivity::class.java)
-            }
-        } else {
-            showAlertDialog("已完成${mList!!.completeNum}个设备的巡检/n未完成${(mList!!.reList!!.size - mList!!.completeNum)}个设备的巡检/n点击确认结束巡检）") {
-                ActivityHelper.finish(InspectionDetailActivity::class.java)
+        notifySelcet()
+        if (!hasNext) {
+            if (mList!!.reList!!.size == mList!!.completeNum) {
+                showAlertDialog("已完成${(mList!!.reList!!.size)}个设备的巡检 点击确认完成任务") {
+                    ActivityHelper.finish(InspectionDetailActivity::class.java)
+                }
+            } else {
+                showAlertDialog("已完成${mList!!.completeNum}个设备的巡检\n未完成${(mList!!.reList!!.size - mList!!.completeNum)}个设备的巡检\n点击确认结束巡检") {
+                    ActivityHelper.finish(InspectionDetailActivity::class.java)
+                }
             }
         }
-        notifySelcet()
     }
 
     private fun pointRight() {
@@ -234,18 +236,26 @@ class InspectionDetailActivity : BaseVmActivity<InspectionViewMoel>(R.layout.act
         tvDeviceID.text = currentBeam.facilityId
         tvLocation.text = currentBeam.location
 
-        if (currentBeam.status == null) {
-            tvSucces.setTextColor(Color.parseColor("#68D279"))
-            tvFail.setTextColor(Color.parseColor("#FF5F00"))
-            tvSucces.setBackgroundResource(R.drawable.normal_uninspection)
-            tvFail.setBackgroundResource(R.drawable.fail_uninspection)
-        } else {
-            tvSucces.setTextColor(Color.parseColor("#ffffff"))
-            tvFail.setTextColor(Color.parseColor("#ffffff"))
-            tvSucces.setBackgroundResource(R.drawable.common_green_bg)
-            tvFail.setBackgroundResource(R.drawable.common_select_bg)
+        when (currentBeam.status) {
+            "正常" -> {
+                tvSucces.setTextColor(Color.parseColor("#ffffff"))
+                tvSucces.setBackgroundResource(R.drawable.common_green_bg)
+                tvFail.setTextColor(Color.parseColor("#FF5F00"))
+                tvFail.setBackgroundResource(R.drawable.fail_uninspection)
+            }
+            "故障" -> {
+                tvSucces.setTextColor(Color.parseColor("#68D279"))
+                tvSucces.setBackgroundResource(R.drawable.normal_uninspection)
+                tvFail.setTextColor(Color.parseColor("#ffffff"))
+                tvFail.setBackgroundResource(R.drawable.common_select_bg)
+            }
+            else -> {
+                tvSucces.setTextColor(Color.parseColor("#68D279"))
+                tvSucces.setBackgroundResource(R.drawable.normal_uninspection)
+                tvFail.setTextColor(Color.parseColor("#FF5F00"))
+                tvFail.setBackgroundResource(R.drawable.fail_uninspection)
+            }
         }
-
 //        tvRecentMaintain.isVisible = currentBeam.recentMaintain
 //        tvRecentInstall.isVisible = currentBeam.recentInstall
     }

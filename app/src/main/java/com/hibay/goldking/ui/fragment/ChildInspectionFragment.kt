@@ -33,6 +33,9 @@ class ChildInspectionFragment : BaseVmFragment<InspectionViewMoel>() {
 
     override fun observe() {
         super.observe()
+        BusHelper.observe<Boolean>("InspectionFragmentUpdate", this) {
+            initData()
+        }
         mViewModel.inspectionList.observe(this) {
             arguments?.getInt(ChildReportFragment.TYPE)?.let { type ->
                 BusHelper.post("Dot", DotBean(type, it.size))
