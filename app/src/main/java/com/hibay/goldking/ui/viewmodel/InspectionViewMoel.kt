@@ -33,7 +33,7 @@ class InspectionViewMoel : BaseViewModel() {
             refreshStatus.value = true
             inspectionList.value = RetrofitClient.apiService.getInspectionList(flag).apiData()
             refreshStatus.value = false
-        }, error = { refreshStatus.value = false })
+        }, isShowLoadding = false, error = { refreshStatus.value = false })
     }
 
     val updateFacilityResult = MutableLiveData<Int>()
@@ -45,6 +45,12 @@ class InspectionViewMoel : BaseViewModel() {
         })
     }
 
+    val GroupInspectionIdList = MutableLiveData<ArrayList<ReList>>()
+    fun queryFacilityInfoByGroupInspectionId(groupID: String) {
+        launch({
+            GroupInspectionIdList.value = RetrofitClient.apiService.queryFacilityInfoByGroupInspectionId(groupID).apiData()
+        })
+    }
 
     val uploadImageResult = MutableLiveData<String>()
     fun uploadImage(file: File) {

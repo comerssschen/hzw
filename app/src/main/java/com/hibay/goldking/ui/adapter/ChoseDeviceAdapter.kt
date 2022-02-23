@@ -13,11 +13,11 @@ class ChoseDeviceAdapter(
     override fun convert(holder: BaseViewHolder, item: ReList) {
         holder.setText(R.id.tvDeviceNum, (getItemPosition(item) + 1).toString())
         if (currentPosition == getItemPosition(item)) {
-            when (item.status) {
-                "正常" -> {
+            when (item.statusCode) {
+                "1" -> {
                     holder.setBackgroundResource(R.id.tvDeviceNum, R.drawable.device_status_success_select)
                 }
-                "故障" -> {
+                "2" -> {
                     holder.setBackgroundResource(R.id.tvDeviceNum, R.drawable.device_status_fail_select)
                 }
                 else -> {
@@ -26,11 +26,11 @@ class ChoseDeviceAdapter(
             }
 
         } else {
-            when (item.status) {
-                "正常" -> {
+            when (item.statusCode) {
+                "1" -> {
                     holder.setBackgroundResource(R.id.tvDeviceNum, R.drawable.device_status_success)
                 }
-                "故障" -> {
+                "2" -> {
                     holder.setBackgroundResource(R.id.tvDeviceNum, R.drawable.device_status_fail)
                 }
                 else -> {

@@ -2,14 +2,22 @@ package com.hibay.goldking.ui.fragment
 
 import com.blankj.utilcode.constant.PermissionConstants
 import com.blankj.utilcode.util.BarUtils
+import com.blankj.utilcode.util.ConvertUtils
 import com.blankj.utilcode.util.PermissionUtils
+import com.bumptech.glide.Glide
+import com.bumptech.glide.load.resource.bitmap.RoundedCorners
+import com.bumptech.glide.request.RequestOptions
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.chad.library.adapter.base.viewholder.BaseViewHolder
 import com.hibay.goldking.R
-import com.hibay.goldking.base.BaseFragment
+import com.hibay.goldking.base.BaseVmFragment
+import com.hibay.goldking.bean.ErrorFacilityList
 import com.hibay.goldking.common.ActivityHelper
+import com.hibay.goldking.common.SpaceItemDecoration
+import com.hibay.goldking.common.dp2px
 import com.hibay.goldking.common.showToast
 import com.hibay.goldking.ui.act.SaoMaActivity
+import com.hibay.goldking.ui.viewmodel.ErrorFacilityViewModel
 import kotlinx.android.synthetic.main.fragment_home.*
 import kotlinx.android.synthetic.main.item_home_devices.view.*
 
@@ -20,7 +28,8 @@ import kotlinx.android.synthetic.main.item_home_devices.view.*
  * @author chenchao
  * @date 3/1/21 11:36
  */
-class HomeFragment : BaseFragment() {
+class HomeFragment : BaseVmFragment<ErrorFacilityViewModel>() {
+    override fun viewModelClass() = ErrorFacilityViewModel::class.java
 
     companion object {
         fun newInstance() = HomeFragment()
@@ -33,6 +42,7 @@ class HomeFragment : BaseFragment() {
         BarUtils.addMarginTopEqualStatusBarHeight(tvHeader)
     }
 
+    var mAdapter: BaseQuickAdapter<ErrorFacilityList, BaseViewHolder>? = null
     override fun initView() {
         super.initView()
         tvScan.setOnClickListener {
@@ -46,26 +56,41 @@ class HomeFragment : BaseFragment() {
                 }
             }).request()
         }
-        recyclerviewDevices.adapter = object : BaseQuickAdapter<Int, BaseViewHolder>(
-            R.layout.item_home_devices,
-            mutableListOf(0, 0, 1, 1, 1, 0, 0, 1, 1, 1, 0, 0, 1, 1, 1, 0)
-        ) {
-            override fun convert(holder: BaseViewHolder, item: Int) {
-                if (holder.layoutPosition % 2 == 0) {
-                    holder.itemView.itemGroup.setBackgroundResource(R.color.white)
-                } else {
-                    holder.itemView.itemGroup.setBackgroundResource(R.color.color_F8F8F8)
+        mAdapter = object : BaseQuickAdapter<ErrorFacilityList, BaseViewHolder>(R.layout.item_home_devices, null) {
+            override fun convert(holder: BaseViewHolder, item: ErrorFacilityList) {
+                holder.itemView.run {
+                    tvDeviceName.text = item.model
+                    tvLocation.text = item.location
+                    tvTime.text = item.createTime
+                    tvStatus.text = item.status
+                    Glide.with(context).load(item.picture)
+                        .transform(RoundedCorners(ConvertUtils.dp2px(5f)))
+                        .apply(RequestOptions().fallback(R.drawable.devices_logo).error(R.drawable.devices_logo))
+                        .into(ivLogo)
                 }
-                if (item == 0) {
-                    holder.itemView.tvDeviceStatus.text = "维修中"
-                    holder.itemView.tvDeviceStatus.setTextColor(resources.getColor(R.color.color_FF8E00))
-                } else {
-                    holder.itemView.tvDeviceStatus.setTextColor(resources.getColor(R.color.color_4692FF))
-                    holder.itemView.tvDeviceStatus.text = "未维修"
-                }
-
             }
+        }
+        recyclerviewDevices.addItemDecoration(SpaceItemDecoration(dp2px(1f)))
+        recyclerviewDevices.adapter = mAdapter
+        swipeRefreshLayout.setOnRefreshListener {
+            initData()
         }
     }
 
+    override fun initData() {
+        super.initData()
+        mViewModel.getErrorFacilityList()
+    }
+
+    override fun observe() {
+        super.observe()
+        mViewModel.run {
+            errorFacilityListReslt.observe(this@HomeFragment) {
+                mAdapter?.setNewInstance(it)
+            }
+            refreshStatus.observe(this@HomeFragment) {
+                swipeRefreshLayout.isRefreshing = it
+            }
+        }
+    }
 }

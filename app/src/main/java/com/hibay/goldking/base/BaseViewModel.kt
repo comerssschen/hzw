@@ -27,10 +27,14 @@ open class BaseViewModel : ViewModel() {
         block: Block<Unit>,
         error: Error? = null,
         cancel: Cancel? = null,
+        isShowLoadding: Boolean = true,
         showErrorToast: Boolean = true
     ): Job {
         return viewModelScope.launch {
             try {
+                if (isShowLoadding) {
+                    showLoadding.value = true
+                }
                 block.invoke(this)
                 showLoadding.value = false
             } catch (e: Exception) {

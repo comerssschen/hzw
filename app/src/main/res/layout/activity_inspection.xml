@@ -93,6 +93,7 @@
             android:text="近期维修"
             android:textColor="@color/color_33"
             android:textSize="12sp"
+            android:visibility="gone"
             app:layout_constraintStart_toStartOf="@+id/tvDeviceID"
             app:layout_constraintTop_toBottomOf="@+id/tvDeviceID" />
 
@@ -107,6 +108,7 @@
             android:text="近期维修"
             android:textColor="@color/color_33"
             android:textSize="12sp"
+            android:visibility="gone"
             app:layout_constraintStart_toEndOf="@+id/tvRecentMaintain"
             app:layout_constraintTop_toTopOf="@+id/tvRecentMaintain" />
 
@@ -115,7 +117,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="35dp"
-            android:background="@drawable/common_green_bg"
             android:paddingHorizontal="32dp"
             android:paddingVertical="8.5dp"
             android:text="正常"
@@ -129,7 +130,6 @@
             android:id="@+id/tvFail"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@drawable/common_select_bg"
             android:paddingHorizontal="32dp"
             android:paddingVertical="8.5dp"
             android:text="故障"
@@ -154,7 +154,6 @@
             android:layout_marginTop="90dp"
             android:background="@drawable/left_point"
             android:gravity="center"
-            android:visibility="gone"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
@@ -170,7 +169,6 @@
             android:layout_height="32dp"
             android:background="@drawable/right_point"
             android:gravity="center"
-            android:visibility="gone"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="@+id/llLeft">
 
@@ -269,8 +267,7 @@
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:background="@color/white"
-        android:paddingHorizontal="17dp"
-        android:visibility="gone">
+        android:paddingHorizontal="17dp">
 
         <TextView
             android:id="@+id/tvSuccesNum"

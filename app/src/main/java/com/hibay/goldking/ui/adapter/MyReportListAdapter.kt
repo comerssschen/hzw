@@ -15,22 +15,23 @@ class MyReportListAdapter(
         holder.setText(R.id.tvLocation, item.location)
         holder.setText(R.id.tvDes, item.detail)
         holder.setText(R.id.tvDetail, item.reason)
+        holder.setVisible(R.id.ivReportFail, item.statusCode == 6)
         holder.setText(R.id.tvStatus, item.status)
-//        “0”是查所有的,”1”是查未接单的,”2”是查维修中的,”3”是查试运行的，,”4”是查已完成的
-        when (item.status) {
-            "0" -> {
-                holder.setBackgroundResource(R.id.tvStatus, R.drawable.inspection_finish)
-            }
-            "未接单" -> {
+//        状态编码（“1”代表未接单，“2”代表维修中，”3”是查试运行的，“4”代表试运行，“5”代表已结束）
+        when (item.statusCode) {
+            1 -> {
                 holder.setBackgroundResource(R.id.tvStatus, R.drawable.inspection_no)
             }
-            "维修中" -> {
+            2 -> {
                 holder.setBackgroundResource(R.id.tvStatus, R.drawable.inspection_nofinish)
             }
-            "审核中" -> {
+            3 -> {
                 holder.setBackgroundResource(R.id.tvStatus, R.drawable.inspection_no)
             }
-            "已结束" -> {
+            4 -> {
+                holder.setBackgroundResource(R.id.tvStatus, R.drawable.inspection_finish)
+            }
+            5 -> {
                 holder.setBackgroundResource(R.id.tvStatus, R.drawable.inspection_finish)
             }
         }

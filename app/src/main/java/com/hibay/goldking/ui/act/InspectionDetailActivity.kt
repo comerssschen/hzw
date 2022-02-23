@@ -50,7 +50,6 @@ class InspectionDetailActivity : BaseVmActivity<InspectionViewMoel>(R.layout.act
         super.initView()
         BarUtils.transparentStatusBar(this)
         BarUtils.addMarginTopEqualStatusBarHeight(tvTitle)
-        tvTitle.text = "开始巡检"
         ivBack.setOnClickListener { ActivityHelper.finish(InspectionDetailActivity::class.java) }
         ivPhoto.setOnClickListener {
             isAdd = true
@@ -140,7 +139,7 @@ class InspectionDetailActivity : BaseVmActivity<InspectionViewMoel>(R.layout.act
         hasNext = false
         run {
             mList?.reList?.forEachIndexed { index, item ->
-                if (item.status.isNullOrEmpty() && index >= currentNum) {
+                if (item.statusCode.isNullOrEmpty() && index >= currentNum) {
                     hasNext = true
                     currentNum = index
                     return@run
@@ -148,13 +147,13 @@ class InspectionDetailActivity : BaseVmActivity<InspectionViewMoel>(R.layout.act
             }
         }
         notifySelcet()
-        if (!hasNext) {
+        if (!hasNext && canEdit) {
             if (mList!!.reList!!.size == mList!!.completeNum) {
                 showAlertDialog("已完成${(mList!!.reList!!.size)}个设备的巡检 点击确认完成任务") {
                     ActivityHelper.finish(InspectionDetailActivity::class.java)
                 }
             } else {
-                showAlertDialog("已完成${mList!!.completeNum}个设备的巡检\n未完成${(mList!!.reList!!.size - mList!!.completeNum)}个设备的巡检\n点击确认结束巡检") {
+                showAlertDialog("已完成${mList!!.completeNum}个设备的巡检\n未完成${(mList!!.reList!!.size - mList!!.completeNum!!)}个设备的巡检\n点击确认结束巡检") {
                     ActivityHelper.finish(InspectionDetailActivity::class.java)
                 }
             }
@@ -192,18 +191,17 @@ class InspectionDetailActivity : BaseVmActivity<InspectionViewMoel>(R.layout.act
 
     var mList: FacilityInfoListBean? = null
     var currentNum = 0
+    var canEdit = false
     override fun initData() {
         super.initData()
+        intent.getStringExtra("groupInspectionId")?.let {
+            canEdit = false
+            mViewModel.queryFacilityInfoByGroupInspectionId(it)
+        }
         intent.getParcelableExtra<FacilityInfoListBean>("facilityInfoListResult")?.let {
+            canEdit = true
             mList = it
-            clDialog.isVisible = true
-            llLeft.isVisible = true
-            llRight.isVisible = true
-            currentNum = 0
-            notifySelcet()
-            mList?.let {
-                showBottomDialog()
-            }
+            setViewStatas()
         }
 
         tvCancle.setOnClickListener {
@@ -226,6 +224,22 @@ class InspectionDetailActivity : BaseVmActivity<InspectionViewMoel>(R.layout.act
 
     }
 
+    private fun setViewStatas() {
+        currentNum = 0
+        notifySelcet()
+        tvSucces.isEnabled = canEdit
+        tvFail.isEnabled = canEdit
+        group.isVisible = canEdit
+        if (canEdit) {
+            mList?.let {
+                showBottomDialog()
+            }
+            tvTitle.text = "开始巡检"
+        } else {
+            tvTitle.text = "巡检详情"
+        }
+    }
+
     private fun initeCurrentDevice(currentBeam: ReList?) {
         if (currentBeam == null) return
         Glide.with(this).load(currentBeam.imageAddress).apply(
@@ -236,14 +250,14 @@ class InspectionDetailActivity : BaseVmActivity<InspectionViewMoel>(R.layout.act
         tvDeviceID.text = currentBeam.facilityId
         tvLocation.text = currentBeam.location
 
-        when (currentBeam.status) {
-            "正常" -> {
+        when (currentBeam.statusCode) {
+            "1" -> {
                 tvSucces.setTextColor(Color.parseColor("#ffffff"))
                 tvSucces.setBackgroundResource(R.drawable.common_green_bg)
                 tvFail.setTextColor(Color.parseColor("#FF5F00"))
                 tvFail.setBackgroundResource(R.drawable.fail_uninspection)
             }
-            "故障" -> {
+            "2" -> {
                 tvSucces.setTextColor(Color.parseColor("#68D279"))
                 tvSucces.setBackgroundResource(R.drawable.normal_uninspection)
                 tvFail.setTextColor(Color.parseColor("#ffffff"))
@@ -256,12 +270,36 @@ class InspectionDetailActivity : BaseVmActivity<InspectionViewMoel>(R.layout.act
                 tvFail.setBackgroundResource(R.drawable.fail_uninspection)
             }
         }
-//        tvRecentMaintain.isVisible = currentBeam.recentMaintain
-//        tvRecentInstall.isVisible = currentBeam.recentInstall
+        tvRecentMaintain.isVisible = currentBeam.recentMaintain == true
+        tvRecentInstall.isVisible = currentBeam.recentInstall == true
     }
 
     override fun observe() {
         super.observe()
+        mViewModel.GroupInspectionIdList.observe(this) {
+            var badNum = 0
+            var completeNum = 0
+            var goodNum = 0
+            it.forEach { bean ->
+                when (bean.statusCode) {
+                    "1" -> {
+                        goodNum += 1
+                        completeNum += 1
+                    }
+                    "2" -> {
+                        badNum += 1
+                        completeNum += 1
+                    }
+                }
+            }
+            mList = FacilityInfoListBean(
+                badNum = badNum.toString(),
+                completeNum = completeNum,
+                goodNum = goodNum.toString(),
+                reList = it, sum = it.size.toString()
+            )
+            setViewStatas()
+        }
         mViewModel.facilityInfoListResult.observe(this) {
             mList = it
             pointNext()

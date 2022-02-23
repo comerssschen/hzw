@@ -6,5 +6,6 @@ data class ReportListBean(
     val id: String?,
     val location: String?,
     val reason: String?,
-    val status: String
+    val status: String,
+    val statusCode: Int?
 )

@@ -23,17 +23,14 @@ class LoginViewModel : BaseViewModel() {
     val loginResult = MutableLiveData<UserInfo>()
     fun login(name: String, pwd: String) {
         launch({
-            RetrofitClient.apiService.login(mapOf("phone" to name, "password" to pwd)).apiData()?.let {
-                userInfo = it
-                Gson().fromJson(it, UserInfo::class.java).let { userinfo ->
-                    accountName = name
-                    accountPWD = pwd
-                    token = userinfo.token
-                    loginResult.value = userinfo
-                    loginSucces.value = true
-                }
+            RetrofitClient.apiService.login(mapOf("phone" to name, "password" to pwd)).apiData()?.let { userinfo ->
+                userInfo = Gson().toJson(userinfo)
+                accountName = name
+                accountPWD = pwd
+                token = userinfo.token
+                loginResult.value = userinfo
+                loginSucces.value = true
             }
-
         }, error = {
             loginSucces.value = false
         })

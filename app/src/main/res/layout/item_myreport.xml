@@ -115,4 +115,15 @@
         android:textSize="13sp"
         app:layout_constraintStart_toEndOf="@+id/tvDetailTitle"
         app:layout_constraintTop_toTopOf="@+id/tvDetailTitle" />
+
+    <ImageView
+        android:id="@+id/ivReportFail"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="20dp"
+        android:src="@drawable/report_fail"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="@+id/tvDetailTitle"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/tvLocationTitle" />
 </androidx.constraintlayout.widget.ConstraintLayout>

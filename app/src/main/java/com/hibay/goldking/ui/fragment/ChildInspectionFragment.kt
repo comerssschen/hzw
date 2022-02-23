@@ -6,7 +6,9 @@ import com.hibay.goldking.R
 import com.hibay.goldking.base.BaseVmFragment
 import com.hibay.goldking.bean.DotBean
 import com.hibay.goldking.bean.InspectionListBean
+import com.hibay.goldking.common.ActivityHelper
 import com.hibay.goldking.common.BusHelper
+import com.hibay.goldking.ui.act.InspectionDetailActivity
 import com.hibay.goldking.ui.adapter.InspectionListAdapter
 import com.hibay.goldking.ui.viewmodel.InspectionViewMoel
 import kotlinx.android.synthetic.main.fragment_child_inspection.*
@@ -59,7 +61,7 @@ class ChildInspectionFragment : BaseVmFragment<InspectionViewMoel>() {
         mAAdapter = InspectionListAdapter(null)
         mAAdapter.setOnItemClickListener { adapter, _, position ->
             val bean = adapter.data[position] as InspectionListBean
-//            ActivityHelper.startActivity(InspectionDetailActivity::class.java, mapOf("id" to bean.groupInspectionId))
+            ActivityHelper.startActivity(InspectionDetailActivity::class.java, mapOf("groupInspectionId" to bean.groupInspectionId))
         }
         recyclerview.adapter = mAAdapter
     }
