@@ -2,10 +2,8 @@ package com.hibay.goldking.net
 
 import com.hibay.goldking.bean.*
 import okhttp3.RequestBody
-import retrofit2.http.Body
-import retrofit2.http.GET
-import retrofit2.http.POST
-import retrofit2.http.Query
+import okhttp3.ResponseBody
+import retrofit2.http.*
 
 @JvmSuppressWildcards
 interface ApiService {
@@ -13,6 +11,13 @@ interface ApiService {
     companion object {
         const val BASE_URL = "http://47.101.165.93:8012"
     }
+
+    @GET("upgrade/judgeUpgrade")
+    suspend fun judgeUpgrade(@Query("version") version: String?, @Query("type") type: Int = 1): ApiResult<UpdateResultBean?>
+
+    @Streaming
+    @GET
+    suspend fun downloadFile(@Url url: String): ResponseBody
 
     @POST("user/appLogin")
     suspend fun login(@Body map: Map<String, Any?>): ApiResult<UserInfo?>

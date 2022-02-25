@@ -29,5 +29,6 @@ data class ReList(
     val location: String?,
     val name: String?,
     val status: String?,
+    val maintain: String?,
     val statusCode: String?
 ) : Parcelable

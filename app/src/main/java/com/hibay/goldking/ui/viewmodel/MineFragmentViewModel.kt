@@ -11,6 +11,6 @@ class MineFragmentViewModel : BaseViewModel() {
     fun getAppWorkOrderInfo() {
         launch({
             infoResult.value = RetrofitClient.apiService.getAppWorkOrderInfo().apiData()
-        })
+        }, isShowLoadding = false)
     }
 }

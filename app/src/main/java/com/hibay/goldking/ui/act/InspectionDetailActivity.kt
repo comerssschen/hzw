@@ -27,9 +27,10 @@ import com.hibay.goldking.bean.FacilityInfoListBean
 import com.hibay.goldking.bean.ReList
 import com.hibay.goldking.common.ActivityHelper
 import com.hibay.goldking.common.GlideEngine
-import com.hibay.goldking.common.showAlertDialog
 import com.hibay.goldking.common.showToast
+import com.hibay.goldking.common.toArrayList
 import com.hibay.goldking.ui.ChoseDevicesDialog
+import com.hibay.goldking.ui.view.CommonDialog
 import com.hibay.goldking.ui.viewmodel.InspectionViewMoel
 import com.luck.picture.lib.PictureSelector
 import com.luck.picture.lib.config.PictureConfig
@@ -42,7 +43,7 @@ import kotlin.math.abs
 class InspectionDetailActivity : BaseVmActivity<InspectionViewMoel>(R.layout.activity_inspection) {
     override fun viewModelClass() = InspectionViewMoel::class.java
     var mAdapter: BaseQuickAdapter<String, BaseViewHolder>? = null
-    private val values = ArrayList<String>()
+    private var values = ArrayList<String>()
     private var mPosition = 0
     private var isAdd = true
     val REQUESTCODE1 = 30
@@ -63,7 +64,6 @@ class InspectionDetailActivity : BaseVmActivity<InspectionViewMoel>(R.layout.act
                 .forResult(REQUESTCODE1)
         }
 
-        initRecycler()
         llLeft.setOnClickListener {
             pointLeft()
         }
@@ -94,38 +94,41 @@ class InspectionDetailActivity : BaseVmActivity<InspectionViewMoel>(R.layout.act
             override fun convert(holder: BaseViewHolder, item: String) {
                 Glide.with(context).load(item).transform(RoundedCorners(ConvertUtils.dp2px(5f)))
                     .into(holder.getView<View>(R.id.ivImage) as ImageView)
+                (holder.getView<View>(R.id.ivDeletePhoto) as ImageView).isVisible = canEdit
             }
         }
-        mAdapter?.setOnItemClickListener { adapter, view, position ->
-            PermissionUtils.permissionGroup(PermissionConstants.CAMERA, PermissionConstants.STORAGE)
-                .callback(object : PermissionUtils.SimpleCallback {
-                    override fun onGranted() {
-                        isAdd = false
-                        mPosition = position
-                        PictureSelector.create(this@InspectionDetailActivity)
-                            .openGallery(PictureMimeType.ofImage())//相册和拍照
-                            .selectionMode(PictureConfig.SINGLE)
-                            .imageEngine(GlideEngine.createGlideEngine())
-                            .setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT)
-                            .isCompress(true) //压缩
-                            .cutOutQuality(50) //压缩后图片质量
-                            .forResult(REQUESTCODE1)
-                    }
+        if (canEdit) {
+            mAdapter?.setOnItemClickListener { adapter, view, position ->
+                PermissionUtils.permissionGroup(PermissionConstants.CAMERA, PermissionConstants.STORAGE)
+                    .callback(object : PermissionUtils.SimpleCallback {
+                        override fun onGranted() {
+                            isAdd = false
+                            mPosition = position
+                            PictureSelector.create(this@InspectionDetailActivity)
+                                .openGallery(PictureMimeType.ofImage())//相册和拍照
+                                .selectionMode(PictureConfig.SINGLE)
+                                .imageEngine(GlideEngine.createGlideEngine())
+                                .setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT)
+                                .isCompress(true) //压缩
+                                .cutOutQuality(50) //压缩后图片质量
+                                .forResult(REQUESTCODE1)
+                        }
 
-                    override fun onDenied() {
-                        showToast("Insufficient authority")
-                    }
-                }).request()
+                        override fun onDenied() {
+                            showToast("Insufficient authority")
+                        }
+                    }).request()
 
-        }
-        mAdapter?.addChildClickViewIds(R.id.ivDeletePhoto)
-        mAdapter?.setOnItemChildClickListener { _, _, position ->
-            values.removeAt(position)
-            mAdapter?.setList(values)
-            if (values.size >= 3) {
-                ivPhoto.visibility = View.INVISIBLE
-            } else {
-                ivPhoto.visibility = View.VISIBLE
+            }
+            mAdapter?.addChildClickViewIds(R.id.ivDeletePhoto)
+            mAdapter?.setOnItemChildClickListener { _, _, position ->
+                values.removeAt(position)
+                mAdapter?.setList(values)
+                if (values.size >= 3) {
+                    ivPhoto.visibility = View.INVISIBLE
+                } else {
+                    ivPhoto.visibility = View.VISIBLE
+                }
             }
         }
         val linearLayoutManager = LinearLayoutManager(this)
@@ -149,13 +152,13 @@ class InspectionDetailActivity : BaseVmActivity<InspectionViewMoel>(R.layout.act
         notifySelcet()
         if (!hasNext && canEdit) {
             if (mList!!.reList!!.size == mList!!.completeNum) {
-                showAlertDialog("已完成${(mList!!.reList!!.size)}个设备的巡检 点击确认完成任务") {
+                CommonDialog(this, "巡检完成", "已完成${(mList!!.reList!!.size)}个设备的巡检 点击确认完成任务", {
                     ActivityHelper.finish(InspectionDetailActivity::class.java)
-                }
+                }, {}).show()
             } else {
-                showAlertDialog("已完成${mList!!.completeNum}个设备的巡检\n未完成${(mList!!.reList!!.size - mList!!.completeNum!!)}个设备的巡检\n点击确认结束巡检") {
+                CommonDialog(this, "巡检未完成", "已完成${mList!!.completeNum}个设备的巡检\n未完成${(mList!!.reList!!.size - mList!!.completeNum!!)}个设备的巡检\n点击确认结束巡检", {
                     ActivityHelper.finish(InspectionDetailActivity::class.java)
-                }
+                }, {}).show()
             }
         }
     }
@@ -175,10 +178,6 @@ class InspectionDetailActivity : BaseVmActivity<InspectionViewMoel>(R.layout.act
     }
 
     private fun notifySelcet() {
-        group.isVisible = false
-        etFailMessage.text.clear()
-        values.clear()
-        mAdapter?.setList(values)
         initeCurrentDevice(mList!!.reList!![currentNum])
         tvCurrentNum.text = "" + (currentNum + 1) + "/" + mList?.sum
         tvSuccesNum.text = mList?.goodNum
@@ -209,7 +208,7 @@ class InspectionDetailActivity : BaseVmActivity<InspectionViewMoel>(R.layout.act
         }
         tvConfirm.setOnClickListener {
             if (values.size > 0) {
-                mViewModel.updateFacilityStatus(mList!!.reList!![currentNum], "2", values.joinToString { i -> i }, etFailMessage.text.toString())
+                mViewModel.updateFacilityStatus(mList!!.reList!![currentNum], "2", values.joinToString { i -> i }, etFailMessage.text.toString(), swMaintain.isChecked)
             } else {
                 showToast("请上传图片")
             }
@@ -226,10 +225,13 @@ class InspectionDetailActivity : BaseVmActivity<InspectionViewMoel>(R.layout.act
 
     private fun setViewStatas() {
         currentNum = 0
+        initRecycler()
         notifySelcet()
         tvSucces.isEnabled = canEdit
         tvFail.isEnabled = canEdit
-        group.isVisible = canEdit
+
+        etFailMessage.isEnabled = canEdit
+        swMaintain.isEnabled = canEdit
         if (canEdit) {
             mList?.let {
                 showBottomDialog()
@@ -242,10 +244,44 @@ class InspectionDetailActivity : BaseVmActivity<InspectionViewMoel>(R.layout.act
 
     private fun initeCurrentDevice(currentBeam: ReList?) {
         if (currentBeam == null) return
+        when (currentBeam.statusCode) {
+            "1" -> {
+                group.isVisible = false
+                values.clear()
+                mAdapter?.setList(values)
+                etFailMessage.setText("")
+                swMaintain.isChecked = false
+            }
+            "2" -> {
+                group.isVisible = true
+                tvCancle.isVisible = canEdit
+                tvConfirm.isVisible = canEdit
+                ivPhoto.isVisible = canEdit
+                etFailMessage.setText(currentBeam.faultDesc)
+                swMaintain.isChecked = currentBeam.maintain == "1"
+                values.clear()
+                values = currentBeam.imageAddress?.split(",")?.toArrayList() ?: arrayListOf()
+                mAdapter?.setNewInstance(values)
+            }
+            else -> {
+                group.isVisible = false
+                values.clear()
+                mAdapter?.setList(values)
+                etFailMessage.setText("")
+                swMaintain.isChecked = false
+            }
+        }
+
         Glide.with(this).load(currentBeam.imageAddress).apply(
-            RequestOptions().fallback(R.drawable.devices_logo).error(R.drawable.devices_logo)
+            RequestOptions().fallback(R.drawable.inject_default)
+                .error(R.drawable.inject_default)
+                .transform(RoundedCorners(ConvertUtils.dp2px(5f)))
         ).into(ivDevicesLogo)
-        tvPosition.text = (currentNum + 1).toString()
+        tvPosition.text = if (currentNum + 1 < 10) {
+            "0" + (currentNum + 1)
+        } else {
+            (currentNum + 1).toString()
+        }
         tvDeviceName.text = currentBeam.name
         tvDeviceID.text = currentBeam.facilityId
         tvLocation.text = currentBeam.location
@@ -351,7 +387,7 @@ class InspectionDetailActivity : BaseVmActivity<InspectionViewMoel>(R.layout.act
                 val my = event.y
                 val disW = mx - mDx //x轴滑动距离
                 val disH: Float = my - mDy //y轴滑动距离
-                if (abs(disW) > abs(disH)) { //滑动轴判断(这个条件可根据实际需求判断)
+                if (abs(disW) > abs(disH) && abs(disW) > 20) { //滑动轴判断(这个条件可根据实际需求判断)
                     if (disW > 0) {
                         //往左滑
                         mActionEvent = 1

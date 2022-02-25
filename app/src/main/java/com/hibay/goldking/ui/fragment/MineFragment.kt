@@ -24,10 +24,6 @@ class MineFragment : BaseVmFragment<MineFragmentViewModel>() {
     override fun onResume() {
         super.onResume()
         BarUtils.addMarginTopEqualStatusBarHeight(ivLogo)
-    }
-
-    override fun initData() {
-        super.initData()
         mViewModel.getAppWorkOrderInfo()
     }
 

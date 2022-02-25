@@ -29,13 +29,15 @@ import com.hibay.goldking.base.MyApplication
 import java.math.BigDecimal
 
 
-fun Context.showAlertDialog(message: String, block: () -> Unit) {
+fun Context.showAlertDialog(message: String, block: () -> Unit, cancle: () -> Unit) {
     AlertDialog.Builder(this)
         .setPositiveButton(R.string.confirm) { _, _ ->
             block.invoke()
         }
         .setCancelable(false)
-        .setNegativeButton(R.string.cancle, null)
+        .setNegativeButton(R.string.cancle) { _, _ ->
+            cancle.invoke()
+        }
         .setMessage(message).show()
 }
 

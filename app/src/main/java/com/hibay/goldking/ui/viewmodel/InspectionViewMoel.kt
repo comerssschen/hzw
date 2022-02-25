@@ -37,10 +37,16 @@ class InspectionViewMoel : BaseViewModel() {
     }
 
     val updateFacilityResult = MutableLiveData<Int>()
-    fun updateFacilityStatus(bean: ReList?, status: String, imageAddress: String? = null, faultDesc: String? = null) {
+    fun updateFacilityStatus(bean: ReList?, status: String, imageAddress: String? = null, faultDesc: String? = null, isMaintain: Boolean = false) {
         launch({
             updateFacilityResult.value = RetrofitClient.apiService.updateFacilityStatus(
-                mapOf("id" to bean?.id, "status" to status, "imageAddress" to imageAddress, "faultDesc" to faultDesc)
+                mapOf(
+                    "id" to bean?.id, "status" to status, "imageAddress" to imageAddress, "faultDesc" to faultDesc, "maintain" to if (isMaintain) {
+                        1
+                    } else {
+                        0
+                    }
+                )
             ).apiData()
         })
     }

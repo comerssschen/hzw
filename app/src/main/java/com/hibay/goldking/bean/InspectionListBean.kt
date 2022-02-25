@@ -9,6 +9,8 @@ data class InspectionListBean(
     val inspectionTime: String?,
     val overnum: String?,
     val status: String?,
+    val statusCode: String?,
     val successnum: String?,
+    val location: String?,
     val totalnum: String?
 )

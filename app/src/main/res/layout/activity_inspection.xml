@@ -20,7 +20,7 @@
             android:layout_marginStart="14dp"
             android:layout_marginTop="25dp"
             android:scaleType="fitXY"
-            android:src="@drawable/devices_logo"
+            android:src="@drawable/inject_default"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -139,6 +139,12 @@
             app:layout_constraintStart_toEndOf="@+id/tvSucces"
             app:layout_constraintTop_toTopOf="@+id/tvSucces" />
 
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginBottom="9dp"
+            android:background="@color/assist_line_colo"
+            app:layout_constraintBottom_toTopOf="@+id/tvFail" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -203,6 +209,26 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
+        <TextView
+            android:id="@+id/tvMaintainTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="26dp"
+            android:layout_marginTop="20dp"
+            android:text="一键报修"
+            android:textColor="@color/color_33"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/etFailMessage" />
+
+        <Switch
+            android:id="@+id/swMaintain"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="18dp"
+            app:layout_constraintBottom_toBottomOf="@+id/tvMaintainTitle"
+            app:layout_constraintStart_toEndOf="@+id/tvMaintainTitle"
+            app:layout_constraintTop_toTopOf="@+id/tvMaintainTitle" />
+
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recyclerview"
             android:layout_width="wrap_content"
@@ -210,7 +236,7 @@
             android:layout_marginStart="20dp"
             android:layout_marginTop="26dp"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/etFailMessage" />
+            app:layout_constraintTop_toBottomOf="@+id/tvMaintainTitle" />
 
         <ImageView
             android:id="@+id/ivPhoto"
@@ -253,7 +279,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:visibility="gone"
-            app:constraint_referenced_ids="tvConfirm,tvCancle,ivPhoto,recyclerview,etFailMessage,tvFailTitle" />
+            app:constraint_referenced_ids="tvConfirm,tvCancle,ivPhoto,recyclerview,etFailMessage,tvFailTitle,swMaintain,tvMaintainTitle" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

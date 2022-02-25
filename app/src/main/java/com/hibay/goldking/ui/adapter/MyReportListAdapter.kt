@@ -11,12 +11,12 @@ class MyReportListAdapter(
 ) : BaseQuickAdapter<ReportListBean, BaseViewHolder>(layoutResId, data) {
 
     override fun convert(holder: BaseViewHolder, item: ReportListBean) {
-        holder.setText(R.id.tvTime, item.createTime)
-        holder.setText(R.id.tvLocation, item.location)
-        holder.setText(R.id.tvDes, item.detail)
-        holder.setText(R.id.tvDetail, item.reason)
+        holder.setText(R.id.tvTime, item.createTime ?: "-")
+        holder.setText(R.id.tvLocation, item.location ?: "-")
+        holder.setText(R.id.tvDes, item.detail ?: "-")
+        holder.setText(R.id.tvDetail, item.reason ?: "-")
         holder.setVisible(R.id.ivReportFail, item.statusCode == 6)
-        holder.setText(R.id.tvStatus, item.status)
+        holder.setText(R.id.tvStatus, item.status ?: "-")
 //        状态编码（“1”代表未接单，“2”代表维修中，”3”是查试运行的，“4”代表试运行，“5”代表已结束）
         when (item.statusCode) {
             1 -> {

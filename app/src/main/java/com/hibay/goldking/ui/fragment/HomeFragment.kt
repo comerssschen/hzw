@@ -59,13 +59,19 @@ class HomeFragment : BaseVmFragment<ErrorFacilityViewModel>() {
         mAdapter = object : BaseQuickAdapter<ErrorFacilityList, BaseViewHolder>(R.layout.item_home_devices, null) {
             override fun convert(holder: BaseViewHolder, item: ErrorFacilityList) {
                 holder.itemView.run {
-                    tvDeviceName.text = item.model
-                    tvLocation.text = item.location
-                    tvTime.text = item.createTime
-                    tvStatus.text = item.status
+                    tvDeviceName.text = item.model ?: "-"
+                    tvLocation.text = item.location ?: "-"
+                    tvTime.text = item.createTime ?: "-"
+                    tvStatus.text = item.status ?: "-"
+                    if (item.statusCode == "0") {
+                        tvStatus.setBackgroundResource(R.drawable.device_no_deal)
+                    } else {
+                        tvStatus.setBackgroundResource(R.drawable.device_dealing)
+                    }
+
                     Glide.with(context).load(item.picture)
                         .transform(RoundedCorners(ConvertUtils.dp2px(5f)))
-                        .apply(RequestOptions().fallback(R.drawable.devices_logo).error(R.drawable.devices_logo))
+                        .apply(RequestOptions().fallback(R.drawable.device_fail_default).error(R.drawable.device_fail_default))
                         .into(ivLogo)
                 }
             }

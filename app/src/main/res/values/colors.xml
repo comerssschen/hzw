@@ -6,8 +6,6 @@
 
     <color name="bgColorPrimary">#FFFFFF</color>
 
-    <color name="colorRipple">#E2E2E2</color>
-
     <color name="main_color">#F5861A</color>
     <color name="unselect_color">#CCCCCC</color>
     <color name="white">#FFFFFF</color>

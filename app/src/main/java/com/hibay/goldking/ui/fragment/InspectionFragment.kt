@@ -1,5 +1,6 @@
 package com.hibay.goldking.ui.fragment
 
+import androidx.core.view.isVisible
 import com.blankj.utilcode.util.BarUtils
 import com.hibay.goldking.R
 import com.hibay.goldking.base.BaseFragment
@@ -24,6 +25,7 @@ class InspectionFragment : BaseFragment() {
 
     override fun initView() {
         super.initView()
+        ivBack.isVisible = false
         tvTitle.text = "巡检列表"
         viewpager.offscreenPageLimit = 4
         viewpager.adapter = SimpleFragmentPagerAdapter(
